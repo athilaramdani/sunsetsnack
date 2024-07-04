@@ -1,10 +1,10 @@
-import Navbar from '@/app/components/Navbar/navbar';
+import Navbar from '@/components/Navbar/navbar';
 
 const Home = () => {
   return (
     <div>
       <Navbar />
-      <h1>Welcome to Next.js!</h1>
+      <h1>Welcome to surplus application</h1>
     </div>
   );
 };

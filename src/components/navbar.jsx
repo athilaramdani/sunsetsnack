@@ -1,11 +1,23 @@
-const Navbar = () => {
-    return (
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
-            <a className="navbar-brand" href="#">Navbar</a>
-            <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#"/>
-            <div className="collapse navbar-collapse" id="navbarNav"></div>
-        </nav>
-    )
-}
+import Link from 'next/link';
 
-export default Navbar
+const Navbar = () => {
+  return (
+    <nav className="bg-blue-300 p-4">
+      <ul className="flex justify-around">
+        <li>
+          <Link href="/">
+          </Link>
+        </li>
+        <li>
+          <Link href="/login">
+          </Link>
+        </li>
+        <li>
+          <Link href="../register" className=""> go to regist</Link>
+        </li>
+      </ul>
+    </nav>
+  );
+};
+
+export default Navbar;

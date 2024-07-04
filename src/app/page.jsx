@@ -1,13 +1,11 @@
-import Navbar from '/src/components/navbar.jsx';
+import Navbar from '@/app/components/Navbar/navbar';
 
 const Home = () => {
   return (
-    <>
+    <div>
       <Navbar />
-      <div>
-        <p>Testing</p>
-      </div>
-    </>
+      <h1>Welcome to Next.js!</h1>
+    </div>
   );
 };
 

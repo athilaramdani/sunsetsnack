@@ -1,13 +1,6 @@
-import { useState } from 'react';
-import Navbar from '/src/components/navbar';
+import Navbar from '@/components/Navbar/navbar';
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  };
 
   return (
     <>

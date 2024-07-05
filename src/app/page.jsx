@@ -1,10 +1,13 @@
 import Navbar from '@/components/Navbar/navbar';
+import Content from '@/components/Content/content';
+import Footer from '@/components/Footer/footer';
 
 const Home = () => {
   return (
     <div>
       <Navbar />
-      <h1>Welcome to surplus application</h1>
+      <Content/>
+      <Footer/>
     </div>
   );
 };

@@ -1,0 +1,209 @@
+openapi: 3.0.0
+info:
+  title: Sunsetsnack API
+  version: 1.0.0
+  description: API for Sunsetsnack Surplus Food Application
+servers:
+  - url: https://api.sunsetsnack.com/v1
+    description: Main API Server
+
+paths:
+  /users/register:
+    post:
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                phone:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '201':
+          description: User registered successfully
+        '400':
+          description: Invalid input
+
+  /users/login:
+    post:
+      summary: Login a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: User logged in successfully
+        '401':
+          description: Invalid credentials
+
+  /packs:
+    get:
+      summary: Get list of mystery packs
+      parameters:
+        - name: category
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: price
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: location
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of mystery packs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    price:
+                      type: number
+                    items:
+                      type: integer
+                    category:
+                      type: string
+                    description:
+                      type: string
+                    allergens:
+                      type: string
+                    origin:
+                      type: string
+
+  /packs/{packId}:
+    get:
+      summary: Get details of a specific pack
+      parameters:
+        - name: packId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Pack details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  price:
+                    type: number
+                  items:
+                    type: integer
+                  category:
+                    type: string
+                  description:
+                    type: string
+                  allergens:
+                    type: string
+                  origin:
+                    type: string
+                  images:
+                    type: array
+                    items:
+                      type: string
+
+  /orders:
+    post:
+      summary: Place a new order
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                packId:
+                  type: string
+                userId:
+                  type: string
+                paymentMethod:
+                  type: string
+      responses:
+        '201':
+          description: Order placed successfully
+        '400':
+          description: Invalid input
+
+  /orders/{orderId}/status:
+    get:
+      summary: Get the status of an order
+      parameters:
+        - name: orderId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Order status
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+
+  /users/{userId}/profile:
+    get:
+      summary: Get user profile information
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User profile information
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  email:
+                    type: string
+                  phone:
+                    type: string
+                  address:
+                    type: string
+
+    put:
+      summary: Update user profile information
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      

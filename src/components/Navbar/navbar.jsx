@@ -21,8 +21,8 @@ const Navbar = () => {
         </li>
         <li>
           <div>
-            <Link href="../Login" className="text-white font-bold">Login</Link>
-            <Link href="../Register" className="text-white font-bold"> Register</Link>
+            <Link href="/login" className="text-white font-bold">Login</Link>
+            <Link href="/register" className="text-white font-bold"> Register</Link>
           </div>
         </li>
       </ul>

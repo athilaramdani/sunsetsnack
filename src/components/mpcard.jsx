@@ -4,7 +4,14 @@ import Image from 'next/image';
 const MPCard = ({ image, name, location, rating, normalPrice, discountPrice, stock }) => {
   return (
     <div className="border rounded-lg shadow-md">
-        <Image src={image} alt={name} width={400} height={300} className="w-full h-33 object-cover rounded-md" />
+        <div className="relative w-full h-56">
+            <Image 
+                src={image}
+                alt={name}
+                layout='fill'
+                objectFit='cover'
+                className="rounded-t-lg" />
+        </div>
         <div className='p-4'>
             <div className='mb-4'>
                 <h3 className="text-lg font-bold">{name}</h3>

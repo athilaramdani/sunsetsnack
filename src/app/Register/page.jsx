@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 
 const Register = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -81,7 +82,7 @@ const Register = () => {
               </button>
             </form>
             <div className="mt-4 text-center">
-              <p>Sudah punya akun? <a href="/login" className="text-black underline font-bold hover:text-highlight ease-in-out transition-all">Masuk</a></p>
+              <p>Sudah punya akun? <Link href="/login" className="text-black underline font-bold hover:text-highlight ease-in-out transition-all">Masuk</Link></p>
             </div>
           </div>
         </div>

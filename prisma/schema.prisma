@@ -1,0 +1,105 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       Int      @id @default(autoincrement())
+  nama     String
+  username String   @unique
+  email    String   @unique
+  password String
+  alamat   String?
+  no_telp  String?
+  role     Role
+  toko     Toko[]
+  orders   Order[]
+  reviews  Review[]
+}
+
+model Toko {
+  id        Int     @id @default(autoincrement())
+  nama      String
+  alamat    String
+  userId    Int
+  user      User    @relation(fields: [userId], references: [id])
+  products  Product[]
+}
+
+model Product {
+  id          Int      @id @default(autoincrement())
+  nama        String
+  deskripsi   String
+  harga       Float
+  stok        Int
+  kategori    String
+  role        Role
+  tokoId      Int
+  toko        Toko     @relation(fields: [tokoId], references: [id])
+  orderDetails OrderDetail[]
+  reviews      Review[]
+}
+
+model Order {
+  id            Int            @id @default(autoincrement())
+  tanggalPesanan DateTime
+  status        String
+  alamat        String
+  userId        Int
+  user          User           @relation(fields: [userId], references: [id])
+  orderDetails  OrderDetail[]
+  payments      Payment[]
+  pengiriman    Pengiriman[]
+}
+
+model OrderDetail {
+  id         Int     @id @default(autoincrement())
+  kuantitas  Int
+  subtotal   Float
+  orderId    Int
+  order      Order   @relation(fields: [orderId], references: [id])
+  productId  Int
+  product    Product @relation(fields: [productId], references: [id])
+}
+
+model Payment {
+  id                Int      @id @default(autoincrement())
+  tanggalPembayaran DateTime
+  jumlah            Float
+  metodePembayaran  String
+  orderId           Int
+  order             Order   @relation(fields: [orderId], references: [id])
+}
+
+model Pengiriman {
+  id                Int      @id @default(autoincrement())
+  tanggalPengiriman DateTime
+  statusPengiriman  String
+  orderId           Int
+  order             Order   @relation(fields: [orderId], references: [id])
+}
+
+model Review {
+  id         Int     @id @default(autoincrement())
+  rating     Int
+  komentar   String
+  productId  Int
+  product    Product @relation(fields: [productId], references: [id])
+  userId     Int
+  user       User    @relation(fields: [userId], references: [id])
+}
+
+enum Role {
+  PEMBELI
+  PENJUAL
+}

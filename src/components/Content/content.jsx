@@ -1,7 +1,8 @@
-const Content = () => {
+const Content = ({judul, desc}) => {
     return (
-      <div className="h-screen">
-        <h1 className="py-4 flex justify-center">Welcome to Sunset Snack</h1>
+      <div>
+        <h1 className="text-2xl font-bold mb-4">{judul}</h1>
+        <p className="text-lg mb-8">{desc}</p>
       </div>
     );
   };

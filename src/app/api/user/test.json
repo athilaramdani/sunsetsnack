@@ -1,0 +1,17 @@
+{
+    "user": {
+      "id": "user-PuxThUVVXghZiUBEndhATROv",
+      "name": "Viana Kheyila Zanitha",
+      "email": "vianakz6017@gmail.com",
+      "image": "https://lh3.googleusercontent.com/a/ACg8ocL73yIqmMWi_GYC9zFt0Svb8wXJlyaDVnxIl8-WJc4Gmdq5S2M=s96-c",
+      "picture": "https://lh3.googleusercontent.com/a/ACg8ocL73yIqmMWi_GYC9zFt0Svb8wXJlyaDVnxIl8-WJc4Gmdq5S2M=s96-c",
+      "idp": "google-oauth2",
+      "iat": 1720256932,
+      "mfa": false,
+      "groups": [],
+      "intercom_hash": "fef71a6e32e4f15ba650174a68f1f2b0039b513268d0d345011c2c16f483c6dd"
+    },
+    "expires": "2024-10-04T09:45:47.861Z",
+    "accessToken": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik1UaEVOVUpHTkVNMVFURTRNMEZCTWpkQ05UZzVNRFUxUlRVd1FVSkRNRU13UmtGRVFrRXpSZyJ9.eyJzZXNzaW9uX2lkIjoiblFUY0g0d3JDMG5hMWlaUDhtaDRSMFJfaXpKa2diRlAiLCJodHRwczovL2FwaS5vcGVuYWkuY29tL3Byb2ZpbGUiOnsiZW1haWwiOiJ2aWFuYWt6NjAxN0BnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZX0sImh0dHBzOi8vYXBpLm9wZW5haS5jb20vYXV0aCI6eyJwb2lkIjoib3JnLXQyZFJXdWR4T3NUNkZqdktad3pieHJ2RyIsInVzZXJfaWQiOiJ1c2VyLVB1eFRoVVZWWGdoWmlVQkVuZGhBVFJPdiJ9LCJpc3MiOiJodHRwczovL2F1dGgwLm9wZW5haS5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMTQxMzM0MDMzNTM0NzI3MDY2MzkiLCJhdWQiOlsiaHR0cHM6Ly9hcGkub3BlbmFpLmNvbS92MSIsImh0dHBzOi8vb3BlbmFpLm9wZW5haS5hdXRoMGFwcC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNzIwMjU2OTMyLCJleHAiOjE3MjExMjA5MzIsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUgZW1haWwgbW9kZWwucmVhZCBtb2RlbC5yZXF1ZXN0IG9yZ2FuaXphdGlvbi5yZWFkIG9yZ2FuaXphdGlvbi53cml0ZSBvZmZsaW5lX2FjY2VzcyIsImF6cCI6IlRkSkljYmUxNldvVEh0Tjk1bnl5d2g1RTR5T282SXRHIn0.alU4mqQpElqJrRJVAyjsb4tZhpmT9TRpI3mIf8hM0LihVaCgBxiV-C08JGDf1UEDdbrhcOvw8ng0Sp8xqmz0fu3Ow-8kS0UGEw7CwAO6kMt0wyL8dVwGI1Bn3zzF6xlYa6mUl5-PthoFCc8Z6ErakBm2BNZw-WIYzsuo_1KW1k0I3Wtppb30Du8sKNYn6bg_YNTWMND8s3HSTavLVE1pMoTsELCnfoSwXuzi6XHvHIL3AugrCg-PRNVQWrY14U97seBl7cR3jyJJBVFSsUttHxkqG1cROQsmTeGtm986R6pRVY2tLFIQBMXT0o8yvUOt7ogHtMIuGQc6yDu0Rs_MTA",
+    "authProvider": "auth0"
+  }

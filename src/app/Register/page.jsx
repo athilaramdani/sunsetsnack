@@ -1,9 +1,11 @@
 "use client";
+import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import axios from 'axios';
 
 const Register = () => {
+  const Router = useRouter()
   const [isVisible, setIsVisible] = useState(false);
   const [formData, setFormData] = useState({
     nama: '',
@@ -47,6 +49,7 @@ const Register = () => {
       if (response.status === 200) {
         alert('Registration successful');
         // Redirect to login page
+        Router.push('/login')
       }
     } catch (error) {
       alert('Registration failed: ' + (error.response?.data?.error || error.message));

@@ -1,13 +1,6 @@
-import Nextauth from "next-auth"
-import googleAuth from "next-auth/providers/google"
+import { authOptions } from "@/libs/auth";
+import NextAuth from "next-auth"
 
-const authOption = {
-    providers: [
-        googleAuth({
-            clientId: "",
-            clientSecret: ""
-        })
-    ]
-}
+const handler = NextAuth(authOptions);
 
-const handler = NextAuth()
+export { handler as GET, handler as POST}

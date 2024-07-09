@@ -1,5 +1,5 @@
 import Navbar from '@/components/Navbar/navbar';
-import Content from '@/components/Content/content';
+// import Content from '@/components/Content/content';
 import Footer from '@/components/Footer/footer';
 import MPCard from '@/components/mpcard';
 
@@ -51,27 +51,21 @@ const Home = () => {
       stock: 4,
     },
   ];
-  const contentData = [
-    {
-      judul: '🌱 Yuk, Segera Selamatkan!',
-      desc: 'Mulai beri dampak nyata dari sekarang'
-    }
-  ];
   return (
     <div>
       <Navbar />
       <div className='p-8'>
-        {contentData.map((content, index) => (
-          <div key={index}>
-            <Content judul={content.judul} desc={content.desc} />
+      <div>
+              <h1 className="text-2xl font-bold mb-4">🌱 Yuk, Segera Selamatkan!</h1>
+              <p className="text-lg mb-8">Mulai beri dampak nyata dari sekarang</p>
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {cardsData.map((card, index) => (
                 <MPCard key={index} {...card} />
               ))}
             </div>
-          </div>
-        ))}
       </div>
+
       <Footer />
     </div>
   );

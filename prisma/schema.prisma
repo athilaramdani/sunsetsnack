@@ -21,7 +21,7 @@ model User {
   password String
   alamat   String?
   no_telp  String?
-  role     Role
+  role     Role     @default(PEMBELI)
   toko     Toko[]
   orders   Order[]
   reviews  Review[]

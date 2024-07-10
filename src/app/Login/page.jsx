@@ -7,6 +7,7 @@ import { signIn } from 'next-auth/react';
 
 const Login = () => {
   const Router = useRouter();
+  const [error, setError] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
@@ -29,13 +30,11 @@ const Login = () => {
     });
 
     if (result?.error) {
-      alert('Login failed: ' + result.error);
+      setError(true);
     } else {
-      alert('Login successful');
       Router.push('/');
     }
   };
-
   useEffect(() => {
     setIsVisible(true);
   }, []);
@@ -44,6 +43,7 @@ const Login = () => {
     <div className="bg-primary flex items-center justify-center min-h-screen">
       <div className={`bg-white p-8 rounded-lg shadow-md w-full max-w-lg transition-opacity duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
         <h2 className="text-2xl mb-4 text-center">Login</h2>
+        {error && <div className=" text-red-500 text-left">username dan password salah</div>}
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label className="block text-black font-bold py-2">Username/Email/no.Telp</label>

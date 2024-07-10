@@ -39,12 +39,12 @@ model Toko {
 model Product {
   id          Int      @id @default(autoincrement())
   nama        String
-  deskripsi   String
+  deskripsi   String?
   harga       Float
   stok        Int
   kategori    String
-  role        Role
   tokoId      Int
+  image       String?
   toko        Toko     @relation(fields: [tokoId], references: [id])
   orderDetails OrderDetail[]
   reviews      Review[]

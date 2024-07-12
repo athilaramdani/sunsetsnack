@@ -8,7 +8,7 @@ const TotalCart = ({ total }) => {
         <span>Total</span>
         <span className="font-semibold">{total}</span>
       </div>
-      <button className="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600">
+      <button className="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600"> 
         Bayar
       </button>
     </div>

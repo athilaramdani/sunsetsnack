@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE `toko` ALTER COLUMN `kota` DROP DEFAULT,
+    ALTER COLUMN `provinsi` DROP DEFAULT;

@@ -40,6 +40,11 @@ export const authOptions = {
           id: `${existingUser.id}`,
           username: existingUser.username,
           email: existingUser.email,
+          nama: existingUser.nama,
+          roleToko: existingUser.roleToko,
+          no_telp: existingUser.no_telp,
+          image: existingUser.image,
+          rank: existingUser.rank,
         };
       },
     }),
@@ -49,12 +54,26 @@ export const authOptions = {
       if (user) {
         token.id = user.id;
         token.username = user.username;
+        token.nama = user.nama;
+        token.roleToko = user.roleToko;
+        token.no_telp = user.no_telp;
+        token.image = user.image;
+        token.rank = user.rank;
       }
       return token;
     },
     async session({ session, token }) {
       if (token) {
-        session.user = token;
+        session.user = {
+          id: token.id,
+          username: token.username,
+          email: token.email,
+          nama: token.nama,
+          roleToko: token.roleToko,
+          no_telp: token.no_telp,
+          image: token.image,
+          rank: token.rank
+        };
       }
       return session;
     }

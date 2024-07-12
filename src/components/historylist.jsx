@@ -9,7 +9,7 @@ const PurchaseList = ({ date, id, store, name, price }) => {
       </div>
       <div className="flex items-center">
         <img
-          src="path/to/item/image" // Ganti dengan path gambar item yang sesuai
+          src="/images/products/delivery-box.png" // Ganti dengan path gambar item yang sesuai
           alt={name}
           className="w-16 h-16 rounded mr-4"
         />

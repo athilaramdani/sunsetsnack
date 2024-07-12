@@ -21,19 +21,35 @@ model User {
   password String
   alamat   String?
   no_telp  String?
+  rank     String?  @default("Reguler")
+  image    String?
+  roleToko String?
   role     Role     @default(PEMBELI)
-  toko     Toko[]
+  toko     UserToko[]
   orders   Order[]
   reviews  Review[]
+  cart     Cart?
 }
 
 model Toko {
   id        Int     @id @default(autoincrement())
   nama      String
+  provinsi  String
+  kota      String
   alamat    String
-  userId    Int
-  user      User    @relation(fields: [userId], references: [id])
+  deskripsi String? @default("")
+  users     UserToko[]
   products  Product[]
+}
+
+model UserToko {
+  userId Int
+  tokoId Int
+  role   String?
+  user   User  @relation(fields: [userId], references: [id])
+  toko   Toko  @relation(fields: [tokoId], references: [id])
+
+  @@id([userId, tokoId])
 }
 
 model Product {
@@ -48,6 +64,7 @@ model Product {
   toko        Toko     @relation(fields: [tokoId], references: [id])
   orderDetails OrderDetail[]
   reviews      Review[]
+  cartItems    CartItem[]
 }
 
 model Order {
@@ -98,6 +115,22 @@ model Review {
   userId     Int
   user       User    @relation(fields: [userId], references: [id])
 }
+
+model Cart {
+  id        Int      @id @default(autoincrement())
+  userId    Int      @unique
+  user      User     @relation(fields: [userId], references: [id])
+  cartItems CartItem[]
+}
+model CartItem {
+  id        Int      @id @default(autoincrement())
+  quantity  Int
+  productId Int
+  product   Product  @relation(fields: [productId], references: [id])
+  cartId    Int
+  cart      Cart     @relation(fields: [cartId], references: [id])
+}
+
 
 enum Role {
   PEMBELI

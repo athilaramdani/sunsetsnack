@@ -1,28 +1,48 @@
+"use client"
+import { useEffect, useState } from 'react';
+import { useSession } from 'next-auth/react';
 import Navbar from '@/components/Navbar/navbar';
 import ItemCart from '@/components/itemcart';
 import TotalCart from '@/components/totalcart';
 
 const Cart = () => {
-    const items = [
-        {
-          name: 'Bebas',
-          description: '78 Item Terdiri dari Protein Hew...',
-          price: 'Rp 18.000',
-          quantity: 1,
-          image: 'https://i.pinimg.com/736x/7b/94/3f/7b943f0ae3902473c07b3b05a6ee8778.jpg', // Ganti dengan path gambar yang sesuai
-        },
-        {
-          name: 'Standard Mystery Pack 1',
-          description: '5 Item Terdiri dari Protein Hew...',
-          price: 'Rp 18.000',
-          quantity: 1,
-          image: 'path/to/image', // Ganti dengan path gambar yang sesuai
-        },
-      ];
-    return (
-        <div>
-            <Navbar />
-            <div className="flex flex-col md:flex-row gap-6 p-4">
+  const { data: session, status } = useSession();
+  const [items, setItems] = useState([]);
+  const [total, setTotal] = useState('Rp 0');
+
+  useEffect(() => {
+    if (status === 'authenticated') {
+      const fetchCart = async () => {
+        try {
+          const response = await fetch('/api/cart/getcart', {
+            headers: {
+              'user-id': session.user.id, // Ambil user ID dari sesi
+            },
+          });
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          const data = await response.json();
+          setItems(data.cartItems || []);
+          calculateTotal(data.cartItems || []);
+        } catch (error) {
+          console.error('Error fetching cart:', error);
+        }
+      };
+
+      fetchCart();
+    }
+  }, [session, status]);
+
+  const calculateTotal = (items) => {
+    const total = items.reduce((sum, item) => sum + item.product.harga * item.quantity, 0);
+    setTotal(`Rp ${total}`);
+  };
+
+  return (
+    <div>
+      <Navbar />
+      <div className="flex flex-col md:flex-row gap-6 p-4">
         <div className="flex-grow">
           <div className="bg-white p-4 shadow rounded-lg">
             <div className="flex items-center border-b border-gray-200 pb-4 mb-4">
@@ -31,24 +51,18 @@ const Cart = () => {
             </div>
             {items.map((item, index) => (
               <div key={index} className="mb-4">
-                <div className="font-semibold mb-2">Dunkin Donuts Cabang Pejaten</div>
-                <ItemCart item={item} />
-              </div>
-            ))}
-            {items.map((item, index) => (
-              <div key={index} className="mb-4">
-                <div className="font-semibold mb-2">JCO Cabang Pejaten</div>
+                <div className="font-semibold mb-2">{item.product.toko?.nama}</div>
                 <ItemCart item={item} />
               </div>
             ))}
           </div>
         </div>
         <div className="w-full md:w-1/4">
-          <TotalCart total="Rp 18.000" />
+          <TotalCart total={total} />
         </div>
       </div>
-        </div>
-    );
-  };
-  
-  export default Cart;
+    </div>
+  );
+};
+
+export default Cart;

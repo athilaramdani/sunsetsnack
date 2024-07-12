@@ -45,7 +45,7 @@ const Register = () => {
     }
 
     try {
-      const response = await axios.post('/api/user', formData);
+      const response = await axios.post('/api/user/loginregister', formData);
       if (response.status === 200) {
         alert('Registration successful');
         // Redirect to login page
@@ -87,6 +87,7 @@ const Register = () => {
                 onChange={handleChange}
                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-highlight bg-placeholder placeholder:text-sm transition-all"
                 placeholder="Masukkan nama lengkap anda"
+                required
               />
             </div>
             <div className="mb-4">
@@ -98,6 +99,7 @@ const Register = () => {
                 onChange={handleChange}
                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-highlight bg-placeholder placeholder:text-sm transition-all"
                 placeholder="Masukkan username anda"
+                required
               />
             </div>
             <div className="mb-4">
@@ -109,6 +111,7 @@ const Register = () => {
                 onChange={handleChange}
                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-highlight bg-placeholder placeholder:text-sm transition-all"
                 placeholder="Masukkan Email anda"
+                required
               />
             </div>
             <div className="mb-4">
@@ -120,6 +123,7 @@ const Register = () => {
                 onChange={handleChange}
                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-highlight bg-placeholder placeholder:text-sm transition-all"
                 placeholder="Masukkan nomor telepon anda"
+                required
               />
             </div>
             <div className="mb-4">
@@ -131,6 +135,7 @@ const Register = () => {
                 onChange={handleChange}
                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-highlight bg-placeholder placeholder:text-sm transition-all"
                 placeholder="Masukkan password anda"
+                required
               />
             </div>
             <div className="mb-4">
@@ -142,6 +147,7 @@ const Register = () => {
                 onChange={handleChange}
                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-highlight bg-placeholder placeholder:text-sm transition-all"
                 placeholder="Tulis kembali konfirmasi password anda"
+                required
               />
             </div>
             <div className="mb-4 flex items-center">
@@ -149,6 +155,7 @@ const Register = () => {
                 type="checkbox"
                 id="terms"
                 className="mr-2 focus:outline-none checked:bg-highlight transition-all"
+                required
               />
               <label htmlFor="terms" className="text-black text-sm">
                 Saya menyetujui syarat dan kebijakan privasi pada web ini
@@ -156,11 +163,8 @@ const Register = () => {
             </div>
             <button
               type="submit"
-              className={`w-full border border-highlight ease-in-out transition-all bg-white text-highlight font-bold py-2 px-4 rounded-md hover:bg-highlight hover:text-white ${
-                isFormValid() ? '' : 'opacity-50 cursor-not-allowed'
-              }`}
-              disabled={!isFormValid()}
-            >
+              className={`w-full border border-highlight ease-in-out transition-all bg-white text-highlight font-bold py-2 px-4 rounded-md hover:bg-highlight hover:text-white
+  `}>
               Daftar
             </button>
           </form>

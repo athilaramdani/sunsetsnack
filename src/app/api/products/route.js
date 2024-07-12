@@ -1,9 +1,8 @@
 import prisma from '@/libs/prisma';
 import { NextResponse } from 'next/server';
-import mime from "mime";
-import { join } from "path";
-import { stat, mkdir, writeFile } from "fs/promises";
 import crypto from 'crypto';
+import { storage } from '@/libs/firebase'
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage"
 
 export async function GET() {
   try {
@@ -25,6 +24,7 @@ export async function GET() {
 }
 
 export async function POST(req) {
+  
   const formData = await req.formData();
 
   const nama = formData.get("nama") || null;
@@ -34,42 +34,21 @@ export async function POST(req) {
   const kategori = formData.get("kategori") || null;
   const tokoId = formData.get("tokoId") ? parseInt(formData.get("tokoId")) : null;
   const image = formData.get("image");
-
   let fileUrl = null;
   if (image && image.size > 0) {
     const buffer = Buffer.from(await image.arrayBuffer());
-    const relativeUploadDir = `/images/products/${new Date(Date.now())
-      .toLocaleDateString("id-ID", {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-      })
-      .replace(/\//g, "-")}`;
-
-    const uploadDir = join(process.cwd(), "public", relativeUploadDir);
-
+    const fileName = `${crypto.createHash('md5').update(buffer).digest('hex')}.${image.type.split('/')[1]}`;
+    const storageRef = ref(storage, `images/products/${fileName}`);
     try {
-      await stat(uploadDir);
-    } catch (e) {
-      if (e.code === "ENOENT") {
-        await mkdir(uploadDir, { recursive: true });
-      } else {
-        console.error("Error while trying to create directory when uploading a file\n", e);
-        return NextResponse.json({ error: "Something went wrong." }, { status: 500 });
+        await uploadBytes(storageRef, buffer, {
+          contentType: image.type,
+        });
+        fileUrl = await getDownloadURL(storageRef);
+      } catch (error) {
+        console.error("Error uploading file to Firebase Storage", error);
+        return NextResponse.json({ error: "Error uploading file." }, { status: 500 });
       }
     }
-
-    try {
-      const hash = crypto.createHash('md5').update(buffer).digest('hex');
-      const extension = mime.extension(image.type);
-      const filename = `${hash}.${extension}`;
-      await writeFile(`${uploadDir}/${filename}`, buffer);
-      fileUrl = `${relativeUploadDir}/${filename}`;
-    } catch (e) {
-      console.error("Error while trying to upload a file\n", e);
-      return NextResponse.json({ error: "Something went wrong." }, { status: 500 });
-    }
-  }
 
   try {
     const result = await prisma.product.create({

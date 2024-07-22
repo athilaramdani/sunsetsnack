@@ -14,25 +14,25 @@ datasource db {
 }
 
 model User {
-  id       Int      @id @default(autoincrement())
-  nama     String
-  username String   @unique
-  email    String   @unique
-  password String
-  alamat   String?
-  no_telp  String?
-  rank     String?  @default("Reguler")
-  image    String?
-  roleToko String?
-  role     Role     @default(PEMBELI)
-  toko     UserToko[]
-  orders   Order[]
-  reviews  Review[]
-  cart     Cart?
+  userId    Int      @id @default(autoincrement())
+  nama      String
+  username  String   @unique
+  email     String   @unique
+  password  String
+  alamat    String?
+  no_telp   String?
+  rank      String?  @default("Reguler")
+  image     String?
+  roleToko  String?
+  role      Role     @default(PEMBELI)
+  toko      UserToko[]
+  orders    Order[]
+  reviews   Review[]
+  cart      Cart?
 }
 
 model Toko {
-  id        Int     @id @default(autoincrement())
+  tokoId    Int     @id @default(autoincrement())
   nama      String
   provinsi  String
   kota      String
@@ -43,94 +43,96 @@ model Toko {
 }
 
 model UserToko {
-  userId Int
-  tokoId Int
-  role   String?
-  user   User  @relation(fields: [userId], references: [id])
-  toko   Toko  @relation(fields: [tokoId], references: [id])
+  userId    Int
+  tokoId    Int
+  role      String?
+  user      User  @relation(fields: [userId], references: [userId])
+  toko      Toko  @relation(fields: [tokoId], references: [tokoId])
 
   @@id([userId, tokoId])
 }
 
 model Product {
-  id          Int      @id @default(autoincrement())
-  nama        String
-  deskripsi   String?
-  harga       Float
-  stok        Int
-  kategori    String
-  tokoId      Int
-  image       String?
-  toko        Toko     @relation(fields: [tokoId], references: [id])
+  productId  Int      @id @default(autoincrement())
+  nama       String
+  deskripsi  String?
+  harga      Float
+  stok       Int
+  terjual    Int?
+  kategori   String
+  tokoId     Int
+  image      String?
+  toko       Toko     @relation(fields: [tokoId], references: [tokoId])
   orderDetails OrderDetail[]
-  reviews      Review[]
-  cartItems    CartItem[]
+  reviews    Review[]
+  cartItems  CartItem[]
 }
 
 model Order {
-  id            Int            @id @default(autoincrement())
+  orderId     Int            @id @default(autoincrement())
   tanggalPesanan DateTime
-  status        String
-  alamat        String
-  userId        Int
-  user          User           @relation(fields: [userId], references: [id])
-  orderDetails  OrderDetail[]
-  payments      Payment[]
-  pengiriman    Pengiriman[]
+  status      String
+  alamat      String
+  userId      Int
+  user        User           @relation(fields: [userId], references: [userId])
+  orderDetails OrderDetail[]
+  payments    Payment[]
+  pengiriman  Pengiriman[]
 }
 
 model OrderDetail {
-  id         Int     @id @default(autoincrement())
-  kuantitas  Int
-  subtotal   Float
-  orderId    Int
-  order      Order   @relation(fields: [orderId], references: [id])
-  productId  Int
-  product    Product @relation(fields: [productId], references: [id])
+  orderDetailId Int     @id @default(autoincrement())
+  kuantitas     Int
+  subtotal      Float
+  orderId       Int
+  order         Order   @relation(fields: [orderId], references: [orderId])
+  productId     Int
+  product       Product @relation(fields: [productId], references: [productId])
 }
 
 model Payment {
-  id                Int      @id @default(autoincrement())
+  paymentId         Int      @id @default(autoincrement())
   tanggalPembayaran DateTime
   jumlah            Float
   metodePembayaran  String
   orderId           Int
-  order             Order   @relation(fields: [orderId], references: [id])
+  order             Order   @relation(fields: [orderId], references: [orderId])
 }
 
 model Pengiriman {
-  id                Int      @id @default(autoincrement())
+  pengirimanId      Int      @id @default(autoincrement())
   tanggalPengiriman DateTime
   statusPengiriman  String
   orderId           Int
-  order             Order   @relation(fields: [orderId], references: [id])
+  order             Order   @relation(fields: [orderId], references: [orderId])
 }
 
 model Review {
-  id         Int     @id @default(autoincrement())
+  reviewId   Int     @id @default(autoincrement())
   rating     Int
   komentar   String
   productId  Int
-  product    Product @relation(fields: [productId], references: [id])
+  product    Product @relation(fields: [productId], references: [productId])
   userId     Int
-  user       User    @relation(fields: [userId], references: [id])
+  user       User    @relation(fields: [userId], references: [userId])
+  image      String?
 }
 
 model Cart {
-  id        Int      @id @default(autoincrement())
+  cartId    Int      @id @default(autoincrement())
   userId    Int      @unique
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [userId])
   cartItems CartItem[]
 }
-model CartItem {
-  id        Int      @id @default(autoincrement())
-  quantity  Int
-  productId Int
-  product   Product  @relation(fields: [productId], references: [id])
-  cartId    Int
-  cart      Cart     @relation(fields: [cartId], references: [id])
-}
 
+model CartItem {
+  cartItemId Int      @id @default(autoincrement())
+  quantity   Int
+  productId  Int
+  product    Product  @relation(fields: [productId], references: [productId])
+  cartId     Int
+  cart       Cart     @relation(fields: [cartId], references: [cartId])
+}
 
 enum Role {
   PEMBELI

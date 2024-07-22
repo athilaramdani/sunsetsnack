@@ -2,10 +2,10 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-const MPCard = ({ image, name, location, rating, normalPrice, discountPrice, stock }) => {
+const MPCard = ({ image, name, toko, rating, normalPrice, discountPrice, stock, productId }) => {
   return (
     <div className="group border rounded-lg shadow-md transition duration-300 hover:shadow-xl overflow-hidden">
-      <Link href="/geraidetail">
+      <Link href={`/productpage?productId=${productId}`}>
         <div className="relative w-full h-56 overflow-hidden rounded-t-lg">
           <Image
             src={image}
@@ -18,7 +18,7 @@ const MPCard = ({ image, name, location, rating, normalPrice, discountPrice, sto
         <div className='p-4 bg-white'>
           <div className='mb-4'>
             <h3 className="text-lg font-bold">{name}</h3>
-            <p className="text-sm text-gray-600">{location}</p>
+            <p className="text-sm text-gray-600">{toko}</p>
             <p className="text-sm text-gray-600">{rating} ({rating > 4 ? '545 Review' : '559 Review'})</p>
           </div>
           <div className='mb-4'>

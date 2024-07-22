@@ -9,6 +9,7 @@ const Cart = () => {
   const { data: session, status } = useSession();
   const [items, setItems] = useState([]);
   const [total, setTotal] = useState('Rp 0');
+ 
 
   useEffect(() => {
     if (status === 'authenticated') {
@@ -16,7 +17,7 @@ const Cart = () => {
         try {
           const response = await fetch('/api/cart/getcart', {
             headers: {
-              'user-id': session.user.id, // Ambil user ID dari sesi
+              'user-id': session.user.userId, // Menggunakan userId dari sesi
             },
           });
           if (!response.ok) {
@@ -41,16 +42,16 @@ const Cart = () => {
 
   return (
     <div>
-      <Navbar />
-      <div className="flex flex-col md:flex-row gap-6 p-4">
+      <Navbar carts= {items}/>
+      <div className="flex flex-col lg:flex-row gap-6 px-4 md:px-16 lg:px-32 xl:px-40 pt-24">
         <div className="flex-grow">
           <div className="bg-white p-4 shadow rounded-lg">
             <div className="flex items-center border-b border-gray-200 pb-4 mb-4">
               <input type="checkbox" className="mr-4" />
               <span>Pilih Semua</span>
             </div>
-            {items.map((item, index) => (
-              <div key={index} className="mb-4">
+            {items.map((item) => (
+              <div key={item.cartItemId} className="mb-4"> 
                 <div className="font-semibold mb-2">{item.product.toko?.nama}</div>
                 <ItemCart item={item} />
               </div>

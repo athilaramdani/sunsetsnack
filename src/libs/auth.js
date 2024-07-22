@@ -23,8 +23,8 @@ export const authOptions = {
           return null;
         }
 
-        const existingUser = await prisma.User.findUnique({
-          where: { email: credentials?.email },
+        const existingUser = await prisma.user.findUnique({
+          where: { email: credentials.email },
         });
 
         if (!existingUser) {
@@ -37,7 +37,7 @@ export const authOptions = {
         }
 
         return {
-          id: `${existingUser.id}`,
+          userId: `${existingUser.userId}`,  // Disesuaikan dengan skema revisi
           username: existingUser.username,
           email: existingUser.email,
           nama: existingUser.nama,
@@ -45,6 +45,7 @@ export const authOptions = {
           no_telp: existingUser.no_telp,
           image: existingUser.image,
           rank: existingUser.rank,
+          alamat: existingUser.alamat,
         };
       },
     }),
@@ -52,27 +53,29 @@ export const authOptions = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.id = user.id;
+        token.userId = user.userId;
         token.username = user.username;
         token.nama = user.nama;
         token.roleToko = user.roleToko;
         token.no_telp = user.no_telp;
         token.image = user.image;
         token.rank = user.rank;
+        token.alamat = user.alamat;
       }
       return token;
     },
     async session({ session, token }) {
       if (token) {
         session.user = {
-          id: token.id,
+          userId: token.userId,
           username: token.username,
           email: token.email,
           nama: token.nama,
           roleToko: token.roleToko,
           no_telp: token.no_telp,
           image: token.image,
-          rank: token.rank
+          rank: token.rank,
+          alamat: token.alamat,
         };
       }
       return session;

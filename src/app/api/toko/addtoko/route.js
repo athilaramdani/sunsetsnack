@@ -17,7 +17,7 @@ export async function POST(req) {
 
   try {
     const user = await prisma.user.findUnique({
-      where: { id: userId },
+      where: { userId: userId }, // Disesuaikan dengan skema revisi
     });
 
     if (!user) {
@@ -34,7 +34,7 @@ export async function POST(req) {
         users: {
           create: {
             user: {
-              connect: { id: userId },
+              connect: { userId: userId }, // Disesuaikan dengan skema revisi
             },
             role: 'admin', // Set the user role as admin
           },
@@ -44,7 +44,7 @@ export async function POST(req) {
 
     // Update user roleToko to 'admin' and role to 'PENJUAL'
     await prisma.user.update({
-      where: { id: userId },
+      where: { userId: userId }, // Disesuaikan dengan skema revisi
       data: {
         roleToko: 'admin',
         role: 'PENJUAL',

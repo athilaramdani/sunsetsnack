@@ -55,7 +55,7 @@ const SellerForm = () => {
 
   const fetchUserId = async () => {
     try {
-      const response = await fetch(`/api/user/userinfo`); // Update with the correct endpoint to get user info
+      const response = await fetch(`/api/user/userinfo`);
       const user = await response.json();
 
       if (!response.ok) {
@@ -64,7 +64,7 @@ const SellerForm = () => {
 
       setFormData((prevFormData) => ({
         ...prevFormData,
-        userId: user.id
+        userId: user.userId
       }));
     } catch (error) {
       console.error('Error fetching user ID:', error);

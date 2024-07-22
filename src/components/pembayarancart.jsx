@@ -1,7 +1,6 @@
 import React from 'react';
-import Link from 'next/link';
 
-const TotalCart = ({ total }) => {
+const PembayaranCart = ({ total, togglePembayaran }) => {
   return (
     <div className="border rounded-lg p-4 bg-white shadow">
       <h2 className="text-lg font-semibold mb-4">Ringkasan Belanja</h2>
@@ -9,13 +8,11 @@ const TotalCart = ({ total }) => {
         <span>Total</span>
         <span className="font-semibold">{total}</span>
       </div>
-      <Link href='/pembayaran'>
-        <button className="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600">
-          Bayar
-        </button>
-      </Link>
+      <button onClick={togglePembayaran} className="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600">
+        Bayar
+      </button>
     </div>
   );
 };
 
-export default TotalCart;
+export default PembayaranCart;

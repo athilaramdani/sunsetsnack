@@ -7,14 +7,14 @@ const History = () => {
     const purchases = [
         {
           date: '8 Juni 2024',
-          id: 'SS4498',
+          orderId: 'SS4498',  // Mengubah 'id' menjadi 'orderId'
           store: 'Dunkin Donuts Cabang Kemang',
           name: 'Standard Mystery Pack 1',
           price: 'Rp 18.000',
         },
         {
           date: '5 Juni 2024',
-          id: 'SS4952',
+          orderId: 'SS4952',  // Mengubah 'id' menjadi 'orderId'
           store: 'JCO Cabang Kemang',
           name: 'Standard Mystery Pack 1',
           price: 'Rp 21.000',

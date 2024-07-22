@@ -14,15 +14,15 @@ export async function POST(req) {
   }
 
   const { searchParams } = new URL(req.url);
-  const id = searchParams.get('id');
+  const userId = searchParams.get('userId');
 
-  if (!id) {
-    return NextResponse.json({ error: 'ID is required' }, { status: 400 });
+  if (!userId) {
+    return NextResponse.json({ error: 'userId is required' }, { status: 400 });
   }
 
   try {
     const user = await prisma.user.findUnique({
-      where: { id: parseInt(id, 10) },
+      where: { userId: parseInt(userId, 10) },
     });
 
     if (!user) {
@@ -52,7 +52,7 @@ export async function POST(req) {
     }
 
     const updatedUser = await prisma.user.update({
-      where: { id: parseInt(id, 10) },
+      where: { userId: parseInt(userId, 10) },
       data: {
         nama,
         username,

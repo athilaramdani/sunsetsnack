@@ -2,7 +2,7 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product,key }) => {
   return (
     <div className="bg-white p-4 shadow-lg rounded-lg mb-4">
       <img src={product.image} alt={product.image} className="w-full h-40 object-cover rounded-lg mb-4" />

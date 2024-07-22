@@ -18,12 +18,14 @@ const KelolaProduk = ({products, onMenuItemClick}) => {
             <div className='pl-10 pt-4 gap-8 flex flex-row'>
             {products.map((product) => (
               <ProductCard 
+              key={product.id}
               product={product}
               />
             ))}
             </div>
             
           </div>
+          
     )
 }
 

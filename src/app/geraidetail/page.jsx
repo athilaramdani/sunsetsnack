@@ -50,7 +50,7 @@ const GeraiDetail = () => {
         ) : (
           cardsData.map((card) => (
             <GeraiCard 
-              key={card.id}
+              key={card.productId}  // Menggunakan card.productId sebagai key
               image={card.image || "/images/products/delivery-box.png"}
               name={card.nama}
               deskripsi={card.deskripsi}
@@ -58,7 +58,7 @@ const GeraiDetail = () => {
               normalPrice={card.harga}
               discountPrice={card.harga * 0.9}
               stock={card.stok}
-              productId={card.id}
+              productId={card.productId}  // Menggunakan card.productId untuk productId
             />
           ))
         )}

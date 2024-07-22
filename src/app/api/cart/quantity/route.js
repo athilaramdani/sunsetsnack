@@ -2,7 +2,7 @@ import prisma from '@/libs/prisma';
 
 export const POST = async (req, res) => {
   try {
-    const { productId, userId, quantity = 1 } = await req.json();  // Menambahkan quantity dan default value 1
+    const { productId, userId } = await req.json();
 
     if (!productId || !userId) {
       return new Response(JSON.stringify({ message: 'Missing productId or userId' }), {
@@ -37,13 +37,13 @@ export const POST = async (req, res) => {
       // Update the quantity if the product is already in the cart
       await prisma.cartItem.update({
         where: { cartItemId: cartItem.cartItemId },
-        data: { quantity: cartItem.quantity + quantity },
+        data: { quantity: cartItem.quantity + 1 },
       });
     } else {
       // Add the product to the cart if it's not there yet
       await prisma.cartItem.create({
         data: {
-          quantity: quantity,  // Menggunakan quantity dari request
+          quantity: 1,
           productId: parseInt(productId, 10),
           cartId: cart.cartId,
         },

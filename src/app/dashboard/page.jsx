@@ -30,41 +30,25 @@ const Dashboard = () => {
     fetchToko();
   }, []);
 
-  const renderContent = () => {
-    switch (selectedPage) {
-      case 'beranda':
-        return (
-          <BerandaToko />
-        );
-      case 'kelolaProduk':
-        if (toko && toko.products) {
-          return <KelolaProduk products={toko.products} onMenuItemClick={setSelectedPage}/>;
-        }
-        return <div>Loading...</div>;
-      case 'profile': //tidur mas 
-        return (
-          <div>
-            <div className='px-10 pt-6'>
-            <h1 className='text-2xl font-bold mb-4'>Profile</h1>
-            </div>
-            <SettingForm/>
-            {/* Render Profile page content here */}
-          </div>
-        );
-      case 'tambahproduk':
-        return(
-          <TambahProduk />
-        )
-      default:
-        return null;
-    } //bang kalao ngerti testprofile di pagejsx bagian routingnya buat onMenuItemClick bukan function boleh perbaiki hehe waduh mungkin nanti coba gpt dah bener bang
-  };
-  console.log(toko)
   return (
     <div className="flex ">
-      <Sidebar onMenuItemClick={setSelectedPage} judul={toko ? toko.nama : "SideBar"}/>
+      <Sidebar onMenuItemClick={setSelectedPage} judul={toko ? toko.nama : "SideBar"} />
       <div className="flex-grow px-4 bg-gray-100">
-        {renderContent()}
+        {selectedPage === 'beranda' && <BerandaToko />}
+        {selectedPage === 'kelolaProduk' && (
+          toko && toko.products ? 
+            <KelolaProduk products={toko.products} onMenuItemClick={setSelectedPage} /> 
+            : <div>Loading...</div>
+        )}
+        {selectedPage === 'profile' && (
+          <div>
+            <div className='px-10 pt-6'>
+              <h1 className='text-2xl font-bold mb-4'>Profile</h1>
+            </div>
+            <SettingForm />
+          </div>
+        )}
+        {selectedPage === 'tambahproduk' && <TambahProduk />}
       </div>
     </div>
   );

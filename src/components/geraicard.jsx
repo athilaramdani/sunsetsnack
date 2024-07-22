@@ -22,12 +22,12 @@ const GeraiCard = ({ image, name, deskripsi, rating, normalPrice, discountPrice,
         },
         body: JSON.stringify({
           productId,
-          userId: session.user.id,
+          userId: session.user.userId,
         }),
       });
 
       if (response.ok) {
-        alert('Product added to cart');
+        alert('Item added to cart successfully');
       } else {
         const data = await response.json();
         alert(`Error: ${data.message}`);

@@ -58,7 +58,7 @@ const SettingForm = () => {
     }
 
     try {
-      const response = await fetch(`/api/user/usersetting?id=${session.user.id}`, {
+      const response = await fetch(`/api/user/usersetting?userId=${session.user.userId}`, {
         method: 'POST',
         body: formData,
       });

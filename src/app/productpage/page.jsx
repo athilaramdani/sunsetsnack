@@ -14,6 +14,8 @@ const ProductPage = () => {
   const productId = searchParams.get('productId');
   const [product, setProduct] = useState(null);
   const [error, setError] = useState(null);
+  const [carts, setCarts] = useState([]);
+  const [user, setUser] = useState(null);  // Perbaikan: Mendefinisikan dengan benar
 
   useEffect(() => {
     if (productId) {
@@ -34,6 +36,49 @@ const ProductPage = () => {
     }
   }, [productId]);
 
+  useEffect(() => {
+    if (status === 'authenticated') {
+      const fetchUser = async () => {
+        try {
+          const response = await fetch(`/api/user/userinfo`);
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          const data = await response.json();
+          console.log("data user sebelum di fetch", data)
+          setUser(data);
+        } catch (error) {
+          console.log("cannot show username");
+        }
+      };
+
+      fetchUser();
+    }
+  }, [session, status]);
+
+  useEffect(() => {
+    if (status === 'authenticated') {
+      const fetchCart = async () => {
+        try {
+          const response = await fetch('/api/cart/getcart', {
+            headers: {
+              'user-id': session.user.userId, // Menggunakan userId dari sesi
+            },
+          });
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          const data = await response.json();
+          setCarts(data.cartItems);
+        } catch (error) {
+          console.error('Error fetching cart:', error);
+        }
+      };
+
+      fetchCart();
+    }
+  }, [session, status]);
+
   if (error) {
     return <div>Error: {error}</div>;
   }
@@ -44,7 +89,7 @@ const ProductPage = () => {
 
   return (
     <div>
-      <Navbar />
+      <Navbar user={user} carts={carts} />
       <div className="flex flex-col lg:flex-row gap-6 px-4 md:px-16 lg:px-32 xl:px-40 pt-24">
         <div className="flex-shrink-0">
           <Image 
@@ -62,7 +107,7 @@ const ProductPage = () => {
               <p className='font-semibold'>Rp. {product.harga}</p>
               <p className='font-regular text-xs'>⭐ {product.rating}</p>
               <p className='font-regular text-xs'>{product.reviews.length} Reviews</p>
-              <p className='font-regular text-xs'>Terjual&gt;{product.sold} paket</p>
+              <p className='font-regular text-xs'>Terjual&gt;{product.terjual} paket</p>
             </div>
             <div className='mt-8'>
               <h1 className='font-bold'>Tentang Paket</h1>

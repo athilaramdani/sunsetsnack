@@ -29,6 +29,7 @@ model User {
   orders    Order[]
   reviews   Review[]
   cart      Cart?
+  notifications Notification[]
 }
 
 model Toko {
@@ -132,6 +133,15 @@ model CartItem {
   product    Product  @relation(fields: [productId], references: [productId])
   cartId     Int
   cart       Cart     @relation(fields: [cartId], references: [cartId])
+}
+
+model Notification {
+  notificationId Int     @id @default(autoincrement())
+  judul          String
+  pesan          String
+  tanggalnotifikasi DateTime
+  userId         Int
+  user           User    @relation(fields: [userId], references: [userId])
 }
 
 enum Role {

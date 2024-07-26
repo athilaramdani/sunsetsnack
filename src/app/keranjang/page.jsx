@@ -9,7 +9,26 @@ const Cart = () => {
   const { data: session, status } = useSession();
   const [items, setItems] = useState([]);
   const [total, setTotal] = useState('Rp 0');
- 
+  const [user, setUser] = useState(null);  // Perbaikan: Mendefinisikan dengan benar
+  useEffect(() => {
+    if (status === 'authenticated') {
+      const fetchUser = async () => {
+        try {
+          const response = await fetch(`/api/user/userinfo`);
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          const data = await response.json();
+          console.log("data user sebelum di fetch", data)
+          setUser(data);
+        } catch (error) {
+          console.log("cannot show username");
+        }
+      };
+
+      fetchUser();
+    }
+  }, [session, status]);
 
   useEffect(() => {
     if (status === 'authenticated') {
@@ -39,10 +58,9 @@ const Cart = () => {
     const total = items.reduce((sum, item) => sum + item.product.harga * item.quantity, 0);
     setTotal(`Rp ${total}`);
   };
-
   return (
     <div>
-      <Navbar carts= {items}/>
+      <Navbar carts= {items} user={user}/>
       <div className="flex flex-col lg:flex-row gap-6 px-4 md:px-16 lg:px-32 xl:px-40 pt-24">
         <div className="flex-grow">
           <div className="bg-white p-4 shadow rounded-lg">

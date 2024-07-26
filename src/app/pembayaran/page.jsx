@@ -10,14 +10,37 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 
 const Cart = () => {
+  const { data: session, status } = useSession();
   const [total, setTotal] = useState('Rp 0');
   const [showPembayaran, setShowPembayaran] = useState(false);
-  const { data: session, status } = useSession();
   const [carts, setCarts] = useState([]);
+  const [user, setUser] = useState(null);  // Perbaikan: Mendefinisikan dengan benar
+  const [toko, setToko] = useState([]);  // Perbaikan: Mendefinisikan dengan benar
+
 
   const togglePembayaran = () => {
     setShowPembayaran(!showPembayaran);
   };
+
+  useEffect(() => {
+    if (status === 'authenticated') {
+      const fetchUser = async () => {
+        try {
+          const response = await fetch(`/api/user/userinfo`);
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          const data = await response.json();
+          console.log("data user sebelum di fetch", data)
+          setUser(data);
+        } catch (error) {
+          console.log("cannot show username");
+        }
+      };
+
+      fetchUser();
+    }
+  }, [session, status]);
 
   useEffect(() => {
     if (status === 'authenticated') {
@@ -42,18 +65,24 @@ const Cart = () => {
     }
   }, [session, status]);
 
+  console.log("cartsnya ada", carts)
   return (
     <div>
-      <Navbar carts= {carts}/>
+      <Navbar carts= {carts} user= {user}/>
       <div className="flex flex-col lg:flex-row gap-6 px-4 md:px-8 lg:px-16 xl:px-20 pt-24">
         <div className="flex-grow">
           <div className="bg-white p-4">
             <h1 className="font-bold text-2xl pb-12">Konfirmasi Pesanan</h1>
             <div className="pb-8 gap-2 flex flex-col">
-              <h1 className="font-bold text-xl">Alamat Gerai</h1>
-              <p className="break-words text-clip w-full md:w-3/4">
-                Jl. RS. Fatmawati Raya Cilandak No.74, RT.1/RW.3, Cilandak Bar., Kec. Cilandak, Kota Jakarta Selatan, Daerah Khusus Ibukota Jakarta 12430
-              </p>
+            {carts.map((cart) => (
+              <div key={cart.cartItemId} className="mb-4"> 
+                <h1 className="font-bold text-xl">Alamat Gerai</h1>
+                <p className="break-words text-clip w-full md:w-3/4">
+                  {cart.product.toko?.alamat}
+                </p>
+              </div>
+            ))}
+
             </div>
             <div>
               <h1 className="font-bold text-xl">Tipe Pemesanan</h1>

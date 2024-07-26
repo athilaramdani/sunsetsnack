@@ -69,7 +69,7 @@ const Profile = () => {
 
   return (
     <div>
-      <Navbar carts={carts}/>
+      <Navbar carts={carts} user = {user}/>
       <div className='max-w-screen-2xl mx-auto'>
         <div className="flex flex-col md:flex-row gap-6 p-4">
           <div className="w-full md:w-1/4">

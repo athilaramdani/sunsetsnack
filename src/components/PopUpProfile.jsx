@@ -2,18 +2,18 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClipboardList, faTicketAlt, faCog } from '@fortawesome/free-solid-svg-icons';
 
-const PopUpProfile = () => {
+const PopUpProfile = ({user}) => {
   return (
     <div className="max-w-64 mx-auto bg-white shadow-md rounded-lg p-6 mt-10">
       <div className="flex items-center mb-4">
         <img
-          src="/path/to/avatar.png" 
+          src={user?.image || '/images/userdefault.jpg' }
           alt="Avatar"
           className="w-12 h-12 rounded-full mr-4"
         />
         <div>
-          <h1 className="text-xl font-bold">Olivia</h1>
-          <p className="text-gray-500">Member Reguler</p>
+          <h1 className="text-xl font-bold">{user?.nama}</h1>
+          <p className="text-gray-500">Member {user?.rank}</p>
         </div>
       </div>
       <ul>

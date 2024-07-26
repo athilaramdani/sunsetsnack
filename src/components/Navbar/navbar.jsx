@@ -14,38 +14,16 @@ import ProfilePopUp from '@/components/popupprofile';
 library.add(faCartShopping);
 library.add(farBell);
 
-const Navbar = ({ carts }) => {
-  console.log(carts);
+const Navbar = ({ carts,user }) => {
   const { data: session, status } = useSession();
-  const [userData, setUserData] = useState({
-    username: '',
-  });
   const [showNotifications, setShowNotifications] = useState(false);
   const [showCartPopUp, setShowCartPopUp] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
 
   useEffect(() => {
-    if (status === 'authenticated') {
-      const fetchData = async () => {
-        try {
-          const response = await fetch(`/api/user/userinfo`);
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
-          }
-          const data = await response.json();
-          setUserData(data);
-        } catch (error) {
-          console.log("cannot show username");
-        }
-      };
-
-      fetchData();
-    }
-  }, [session, status]);
-
-  useEffect(() => {
     console.log("Carts prop in Navbar updated:", carts);
   }, [carts]);
+
 
   const isLoggedIn = status === 'authenticated';
   const handleLogout = async () => {
@@ -105,12 +83,12 @@ const Navbar = ({ carts }) => {
                   onMouseLeave={() => setShowProfile(false)}
                 >
                   <Link href="/profile" className='text-black mx-4 flex gap-4 items-center'>
-                    <Image width={30} height={30} src={userData.image || '/images/userdefault.jpg'} alt="Avatar" className="rounded-full mx-1" />
-                    {userData.username}
+                    <Image width={30} height={30} src={user?.image || '/images/userdefault.jpg'} alt="Avatar" className="rounded-full mx-1" />
+                    {user?.username}
                   </Link>
                   {showProfile && (
                     <div className="absolute right-0 mt-2 w-96 z-10">
-                      <ProfilePopUp />
+                      <ProfilePopUp user={user}/>
                     </div>
                   )}
                 </div>

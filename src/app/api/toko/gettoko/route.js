@@ -20,7 +20,11 @@ export async function GET(req) {
       include: {
         toko: {
           include: {
-            products: true,
+            products: {
+              include: {
+                reviews : true,
+              }
+            }
           },
         },
       },

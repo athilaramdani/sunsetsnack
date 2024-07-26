@@ -10,7 +10,6 @@ import TambahProduk from '@/components/dbseller/tambahproduct';
 const Dashboard = () => {
   const [selectedPage, setSelectedPage] = useState('beranda');
   const [toko, setToko] = useState(null);
-
   useEffect(() => {
     const fetchToko = async () => {
       try {
@@ -29,12 +28,12 @@ const Dashboard = () => {
 
     fetchToko();
   }, []);
-
+  console.log(toko)
   return (
     <div className="flex ">
       <Sidebar onMenuItemClick={setSelectedPage} judul={toko ? toko.nama : "SideBar"} />
       <div className="flex-grow px-4 bg-gray-100">
-        {selectedPage === 'beranda' && <BerandaToko />}
+        {selectedPage === 'beranda' && <BerandaToko toko={toko}/>}
         {selectedPage === 'kelolaProduk' && (
           toko && toko.products ? 
             <KelolaProduk products={toko.products} onMenuItemClick={setSelectedPage} /> 

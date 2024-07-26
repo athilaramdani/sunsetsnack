@@ -16,7 +16,11 @@ export const GET = async (req, res) => {
       include: {
         cartItems: {
           include: {
-            product: true,
+            product: {
+              include: {
+                toko: true,
+              }
+            }
           },
         },
       },

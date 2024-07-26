@@ -8,7 +8,7 @@ const ReviewCard = ({ review }) => {
     <div className="border rounded-lg p-4 bg-white shadow mt-4">
       <div className="flex items-center">
         <img
-          src={user?.image || '/default-avatar.png'}
+          src={user?.image || "/images/userdefault.jpg"}
           alt={user?.nama}
           className="w-10 h-10 rounded-full"
         />

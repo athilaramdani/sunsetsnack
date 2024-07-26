@@ -40,14 +40,12 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (formData.password !== formData.confirmPassword) {
-      alert('Passwords do not match');
       return;
     }
 
     try {
       const response = await axios.post('/api/user/loginregister', formData);
       if (response.status === 200) {
-        alert('Registration successful');
         // Redirect to login page
         Router.push('/login')
       }

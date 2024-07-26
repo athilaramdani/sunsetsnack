@@ -5,7 +5,7 @@ import { faBell as farBell } from '@fortawesome/free-regular-svg-icons';
 import { useSession, signOut } from 'next-auth/react';
 import Link from 'next/link';
 import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import Image from 'next/image';
 import Notification from '@/components/notification';
 import CartPopUp from '@/components/cartpopup';
@@ -14,16 +14,26 @@ import ProfilePopUp from '@/components/popupprofile';
 library.add(faCartShopping);
 library.add(farBell);
 
-const Navbar = ({ carts,user }) => {
+const Navbar = ({ carts, user }) => {
   const { data: session, status } = useSession();
   const [showNotifications, setShowNotifications] = useState(false);
   const [showCartPopUp, setShowCartPopUp] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
 
-  useEffect(() => {
-    console.log("Carts prop in Navbar updated:", carts);
-  }, [carts]);
+  const hideNotificationTimeout = useRef();
+  const hideCartPopUpTimeout = useRef();
+  const hideProfileTimeout = useRef();
 
+  const handleMouseEnter = (setShowFunction, timeoutRef) => {
+    clearTimeout(timeoutRef.current);
+    setShowFunction(true);
+  };
+
+  const handleMouseLeave = (setShowFunction, timeoutRef) => {
+    timeoutRef.current = setTimeout(() => {
+      setShowFunction(false);
+    }, 200);
+  };
 
   const isLoggedIn = status === 'authenticated';
   const handleLogout = async () => {
@@ -33,7 +43,7 @@ const Navbar = ({ carts,user }) => {
   return (
     <nav className="bg-white p-5 outline outline-1 outline-[#AEB2BE] shadow-sm">
       <div className='max-w-screen-xl mx-auto'>
-        <ul className="flex justify-around items-center px-10">
+        <ul className="flex justify-around items-center px-10 gap-8">
           <li>
             <Link href="/" className="text-black">Logo</Link>
           </li>
@@ -48,26 +58,34 @@ const Navbar = ({ carts,user }) => {
             <div className="flex items-center space-x-2 relative">
               <div
                 className="relative"
-                onMouseEnter={() => setShowNotifications(true)}
-                onMouseLeave={() => setShowNotifications(false)}
+                onMouseEnter={() => handleMouseEnter(setShowNotifications, hideNotificationTimeout)}
+                onMouseLeave={() => handleMouseLeave(setShowNotifications, hideNotificationTimeout)}
               >
                 <FontAwesomeIcon icon="fa-regular fa-bell" className="mx-4 cursor-pointer" />
                 {showNotifications && (
-                  <div className="absolute right-0 mt-2 w-96 z-10">
+                  <div
+                    className="absolute left-1/2 transform -translate-x-1/2 mt-2 w-96 z-10"
+                    onMouseEnter={() => handleMouseEnter(setShowNotifications, hideNotificationTimeout)}
+                    onMouseLeave={() => handleMouseLeave(setShowNotifications, hideNotificationTimeout)}
+                  >
                     <Notification />
                   </div>
                 )}
               </div>
               <div
                 className="relative"
-                onMouseEnter={() => setShowCartPopUp(true)}
-                onMouseLeave={() => setShowCartPopUp(false)}
+                onMouseEnter={() => handleMouseEnter(setShowCartPopUp, hideCartPopUpTimeout)}
+                onMouseLeave={() => handleMouseLeave(setShowCartPopUp, hideCartPopUpTimeout)}
               >
                 <Link href="/keranjang" className='text-black'>
                   <FontAwesomeIcon icon="fa-solid fa-cart-shopping" className="mx-4 cursor-pointer" />
                 </Link>
                 {showCartPopUp && (
-                  <div className="absolute right-0 mt-2 w-96 z-10">
+                  <div
+                    className="absolute left-1/2 transform -translate-x-1/2 mt-2 w-96 z-10"
+                    onMouseEnter={() => handleMouseEnter(setShowCartPopUp, hideCartPopUpTimeout)}
+                    onMouseLeave={() => handleMouseLeave(setShowCartPopUp, hideCartPopUpTimeout)}
+                  >
                     <CartPopUp carts={carts} />
                   </div>
                 )}
@@ -76,19 +94,23 @@ const Navbar = ({ carts,user }) => {
           </li>
           <li>
             {isLoggedIn ? (
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-2 gap-8">
                 <div
                   className="relative"
-                  onMouseEnter={() => setShowProfile(true)}
-                  onMouseLeave={() => setShowProfile(false)}
+                  onMouseEnter={() => handleMouseEnter(setShowProfile, hideProfileTimeout)}
+                  onMouseLeave={() => handleMouseLeave(setShowProfile, hideProfileTimeout)}
                 >
                   <Link href="/profile" className='text-black mx-4 flex gap-4 items-center'>
                     <Image width={30} height={30} src={user?.image || '/images/userdefault.jpg'} alt="Avatar" className="rounded-full mx-1" />
                     {user?.username}
                   </Link>
                   {showProfile && (
-                    <div className="absolute right-0 mt-2 w-96 z-10">
-                      <ProfilePopUp user={user}/>
+                    <div
+                      className="absolute left-1/2 transform -translate-x-1/2 mt-2 w-96 z-10"
+                      onMouseEnter={() => handleMouseEnter(setShowProfile, hideProfileTimeout)}
+                      onMouseLeave={() => handleMouseLeave(setShowProfile, hideProfileTimeout)}
+                    >
+                      <ProfilePopUp user={user} />
                     </div>
                   )}
                 </div>

@@ -26,7 +26,7 @@ const BerandaToko = ({toko}) => {
       <div className="grid grid-cols-2 gap-4">
         <div className="bg-white shadow-md rounded-md p-4">
           <h2 className="text-2xl font-bold mb-4">🌱 Produk Terlaris</h2>
-          <ul>
+          <ul className='flex flex-col gap-4'>
             {produkTerlaris?.map(product => (
               <li key={product.productId}>
                 <div className="font-semibold">{product.nama}</div>
@@ -37,7 +37,7 @@ const BerandaToko = ({toko}) => {
         </div>
         <div className="bg-white shadow-md rounded-md p-4">
           <h2 className="text-2xl font-bold mb-4">⭐ 3 Rating Terbaik</h2>
-          <ul>
+          <ul className='flex flex-col gap-4'>
             {produkRatingTerbaik?.map(product => {
               const averageRating = (product.reviews?.reduce((total, review) => total + review.rating, 0) / product.reviews?.length) || 0;
               return (

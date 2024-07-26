@@ -1,4 +1,5 @@
 "use client";
+import Image from 'next/image';
 import { useState, useEffect } from 'react';
 
 const UlasForm = () => {
@@ -35,7 +36,7 @@ const UlasForm = () => {
         </div>
         <h1 className='font-semibold'>Dunkin Donuts Cabang Kemang</h1>
         <div className='flex items-center gap-4 pt-4'>
-          <h1>GAMBAR</h1>
+          <Image src="/images/products/delivery-box.png" width={75} height={75}/>
           <div className='flex gap-2 flex-col'>
             <h1>Standard Mystery Pack 1</h1>
             <div className='flex text-xs'>

@@ -104,7 +104,7 @@ const Cart = () => {
       {showPembayaran && (
         <div className="fixed inset-0 flex items-center justify-center z-20">
           <div className="absolute inset-0 bg-black opacity-50"></div>
-          <div className="relative z-30 w-96 p-4 bg-white rounded-lg shadow-lg">
+          <div className="relative z-30 w-96 bg-white rounded-lg shadow-lg">
             <PaymentMethod />
             <button onClick={togglePembayaran} className="mt-4 w-full bg-red-500 text-white py-2 rounded hover:bg-red-600">
               Close

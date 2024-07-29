@@ -44,15 +44,29 @@ const Register = () => {
     }
 
     try {
-      const response = await axios.post('/api/user/loginregister', formData);
-      if (response.status === 200) {
-        // Redirect to login page
-        Router.push('/login')
+    const response = await axios.post('/api/user/loginregister', formData);
+    if (response.status === 200) {
+      try {
+        const userId = response.data.user.userId; // Get the userId from the registration response
+        const notificationResponse = await axios.post('/api/notifications/addnotifications', {
+          title: 'akun berhasil diregistrasi',
+          message: 'Akun baru saja diregistrasi.',
+          userId: userId, // Use the userId from the registration response
+        });
+        if (notificationResponse.status === 200) {
+          // Redirect to login page
+          Router.push('/login');
+        }
+      } catch (error) {
+        alert('Notification failed: ' + (error.response?.data?.error || error.message));
       }
-    } catch (error) {
-      alert('Registration failed: ' + (error.response?.data?.error || error.message));
+      // Redirect to login page if notification succeeds or fails
+      Router.push('/login');
     }
-  };
+  } catch (error) {
+    alert('Registration failed: ' + (error.response?.data?.error || error.message));
+  }
+};
 
   const isFormValid = () => {
     return (

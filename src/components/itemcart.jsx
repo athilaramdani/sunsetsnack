@@ -3,7 +3,7 @@ import { useSession } from 'next-auth/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 
-const ItemCart = ({ item }) => {
+const ItemCart = ({ item, handleItemCheck }) => {
   const { data: session, status } = useSession();
   const [quantity, setQuantity] = useState(item.quantity);
 
@@ -131,8 +131,8 @@ const ItemCart = ({ item }) => {
 
   return (
     <div className="flex items-center py-4 border-b border-gray-200">
-      <input type="checkbox" className="mr-4" />
-      <img src={item.product.image} alt={item.product.nama} className="w-16 h-16 rounded mr-4" />
+      <input type="checkbox" className="mr-4" checked={item.checked} onChange={() => handleItemCheck(item.cartItemId)}/>
+      <img src={item.product.image || "/images/products/delivery-box.png"} alt={item.product.nama} className="w-16 h-16 rounded mr-4" />
       <div className="flex-grow">
         <h3 className="font-semibold">{item.product.nama}</h3>
         <p className="text-gray-500 text-sm">{item.product.deskripsi}</p>

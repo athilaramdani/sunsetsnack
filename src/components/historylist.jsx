@@ -1,36 +1,96 @@
-import React from 'react';
+"use client";
+import Image from 'next/image';
 
-const PurchaseList = ({ item, onUlasClick }) => {
+const HistoryList = ({ onUlasClick, finish, queue, canceled }) => {
   return (
-    <div className="bg-white p-4 shadow rounded-lg mb-4">
-      <div className="flex justify-between items-center mb-4">
-        <div className="text-gray-600">{item?.date} {item?.orderId}</div>
+    <div>
+      <h2 className="text-lg font-semibold mb-4">Riwayat Pembelian</h2>
+      <div>
+        <h3 className="text-md font-semibold mb-2">Selesai</h3>
+        {finish.map((item) => (
+          <div key={item.orderDetailId} className="border p-4 mb-2">
+            <div className="flex items-center gap-4">
+              <Image 
+                src={item?.product?.image || "/images/products/delivery-box.png"} 
+                width={50} 
+                height={50} 
+                alt={item?.product?.nama || 'default'} 
+              />
+              <div className="flex-grow">
+                <h4 className="font-semibold">{item?.product?.nama}</h4>
+                <p className="text-sm">Kuantitas: {item?.kuantitas}</p>
+                <p className="text-sm">Harga: Rp.{item?.product?.harga}</p>
+                <p className="text-sm">Tanggal: {new Date(item?.date).toLocaleDateString()}</p>
+                <p className="text-sm">Order ID: {item?.orderId}</p>
+              </div>
+              <div className="relative">
+                <button
+                  className={`border py-2 px-4 rounded ${
+                    item.rated
+                      ? 'border-gray-500 text-gray-500 cursor-not-allowed'
+                      : 'border-green-500 text-green-500 hover:bg-green-100'
+                  }`}
+                  onClick={() => onUlasClick(item)}
+                  disabled={item.rated}
+                >
+                  Ulas
+                </button>
+                {item.rated && (
+                  <div className="absolute bottom-0 right-0 bg-white border p-2 rounded shadow-lg text-xs text-gray-700 w-64 mt-2" style={{ display: 'none' }}>
+                    Anda sudah merating produk ini, silahkan beli lagi
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
-      <div className="flex items-center">
-        <img
-          src="/images/products/delivery-box.png"
-          alt={item?.name}
-          className="w-16 h-16 rounded mr-4"
-        />
-        <div className="flex-grow">
-          <h3 className="font-semibold">{item?.store}</h3>
-          <p>{item?.name}</p>
-          <p className="text-gray-600">{item?.quantity}x {item?.price}</p>
-        </div>
-        <div className="flex space-x-2">
-          <button className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600">
-            Beli Lagi
-          </button>
-          <button
-            className="border border-green-500 text-green-500 py-2 px-4 rounded hover:bg-green-100"
-            onClick={onUlasClick}
-          >
-            Ulas
-          </button>
-        </div>
+      <div>
+        <h3 className="text-md font-semibold mb-2">Antrian</h3>
+        {queue.map((item) => (
+          <div key={item.orderDetailId} className="border p-4 mb-2">
+            <div className="flex items-center gap-4">
+              <Image 
+                src={item?.product?.image || "/images/products/delivery-box.png"} 
+                width={50} 
+                height={50} 
+                alt={item?.product?.nama || 'default'} 
+              />
+              <div className="flex-grow">
+                <h4 className="font-semibold">{item?.product?.nama}</h4>
+                <p className="text-sm">Kuantitas: {item?.kuantitas}</p>
+                <p className="text-sm">Harga: Rp.{item?.product?.harga}</p>
+                <p className="text-sm">Tanggal: {new Date(item?.date).toLocaleDateString()}</p>
+                <p className="text-sm">Order ID: {item?.orderId}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div>
+        <h3 className="text-md font-semibold mb-2">Dibatalkan</h3>
+        {canceled.map((item) => (
+          <div key={item.orderDetailId} className="border p-4 mb-2">
+            <div className="flex items-center gap-4">
+              <Image 
+                src={item?.product?.image || "/images/products/delivery-box.png"} 
+                width={50} 
+                height={50} 
+                alt={item?.product?.nama || 'default'} 
+              />
+              <div className="flex-grow">
+                <h4 className="font-semibold">{item?.product?.nama}</h4>
+                <p className="text-sm">Kuantitas: {item?.kuantitas}</p>
+                <p className="text-sm">Harga: Rp.{item?.product?.harga}</p>
+                <p className="text-sm">Tanggal: {new Date(item?.date).toLocaleDateString()}</p>
+                <p className="text-sm">Order ID: {item?.orderId}</p>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
 };
 
-export default PurchaseList;
+export default HistoryList;

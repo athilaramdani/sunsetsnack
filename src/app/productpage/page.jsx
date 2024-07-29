@@ -16,6 +16,30 @@ const ProductPage = () => {
   const [error, setError] = useState(null);
   const [carts, setCarts] = useState([]);
   const [user, setUser] = useState(null);  // Perbaikan: Mendefinisikan dengan benar
+  const [notifications, setNotifications] = useState([]);
+  
+  useEffect(() => {
+    if (status === 'authenticated') {
+      const fetchNotifications = async () => {
+        try {
+          const response = await fetch('/api/notifications/getnotifications', {
+            headers: {
+              'user-id': session.user.userId,
+            },
+          });
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          const data = await response.json();
+          setNotifications(data.notifications); // Change this line
+        } catch (error) {
+          console.error('Error fetching notifications:', error);
+        }
+      };
+
+      fetchNotifications();
+    }
+  }, [session, status]);
 
   useEffect(() => {
     if (productId) {
@@ -89,23 +113,23 @@ const ProductPage = () => {
 
   return (
     <div>
-      <Navbar user={user} carts={carts} />
-      <div className="flex flex-col lg:flex-row gap-6 px-4 md:px-16 lg:px-32 xl:px-40 pt-24">
-        <div className="flex-shrink-0">
+      <Navbar user={user} carts={carts} notifications={notifications}/>
+      <div className="flex flex-col md:flex-row gap-6 px-4 md:px-16 lg:px-32 xl:px-40 pt-8">
+        <div className="flex-shrink-0 w-full md:w-auto flex justify-center md:justify-start">
           <Image 
-            className="object-cover" 
+            className="object-cover w-full h-auto max-w-xs lg:max-w-none" 
             src={product.image || "/images/products/delivery-box.png"} 
             width={400} 
             height={400} 
             alt={product.nama}
           />
         </div>
-        <div className="flex-grow flex flex-col md:w-2/4">
+        <div className="flex-grow flex flex-col order-2 md:order-1 lg:w-2/4">
           <div>
             <h1 className='font-bold'>{product.nama}</h1>
-            <div className='flex gap-4 items-center mt-2'>
+            <div className='flex gap-2 items-center mt-2 justify-center md:justify-start'>
               <p className='font-semibold'>Rp. {product.harga}</p>
-              <p className='font-regular text-xs'>⭐ {product.rating}</p>
+              <p className='font-regular text-xs'>⭐{product.rating}</p>
               <p className='font-regular text-xs'>{product.reviews.length} Reviews</p>
               <p className='font-regular text-xs'>Terjual&gt;{product.terjual} paket</p>
             </div>
@@ -120,21 +144,24 @@ const ProductPage = () => {
                 <p className='font-regular'>Official Branch</p>
               </div>
             </Link>
-            <div className='mt-8'>
-              <h1 className='font-bold'>Review dan Rating</h1>
-              <div className='mt-8'>
-                {product.reviews.map((review) => (
-                  <ReviewCard key={review.id} review={review} />
-                ))}
-              </div>
-            </div>
           </div>
         </div>
-        <div className="w-full md:w-1/4">
+        <div className="w-full order-1 md:order-2 md:w-1/4">
           <ProductTotal price={product.harga} stock={product.stok} productId={productId}/>
         </div>
       </div>
-    </div>
+      <hr className="my-4 border-t-2 border-gray-300" />
+      <div className="flex flex-col md:flex-row gap-6 px-4 md:px-8 lg:px-16 xl:px-20 justify-center">
+        <div className="w-full lg:w-3/4">
+                <h1 className='font-bold text-2xl pl-4 md:pl-8 lg:pl-16'>Review dan Rating</h1>
+                <div className='flex flex-col mt-8 px-4 md:px-8 lg:px-16 w-full md:w-3/4 lg:w-full flex-grow'>
+                  {product.reviews.map((review) => (
+                    <ReviewCard key={review.id} review={review} />
+                  ))}
+                </div>
+              </div>
+            </div>
+      </div>
   );
 };
 

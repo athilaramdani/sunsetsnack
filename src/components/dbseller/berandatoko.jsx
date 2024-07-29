@@ -15,42 +15,52 @@ const BerandaToko = ({toko}) => {
    })
    .slice(0, 3);
     return (
-        <div className='pt-6'>
-      <h1 className="text-3xl font-bold mb-4">Beranda</h1>
-      <div className="grid grid-cols-4 gap-4 mb-8">
-        <div className="bg-white shadow-md rounded-md p-4">Total Produk Terjual: {totalTerjual}</div>
-        <div className="bg-white shadow-md rounded-md p-4">Dampak Lingkungan: 89</div>
-        <div className="bg-white shadow-md rounded-md p-4">Total Secondary Revenue: 89</div>
-        <div className="bg-white shadow-md rounded-md p-4">Total Produk Terjual: 89</div>
-      </div>
-      <div className="grid grid-cols-2 gap-4">
-        <div className="bg-white shadow-md rounded-md p-4">
-          <h2 className="text-2xl font-bold mb-4">🌱 Produk Terlaris</h2>
-          <ul className='flex flex-col gap-4'>
-            {produkTerlaris?.map(product => (
-              <li key={product.productId}>
-                <div className="font-semibold">{product.nama}</div>
-                <div>Terjual: {product.terjual || 0}</div>
-              </li>
-            ))}
-          </ul>
+        <div>
+          <div className='pt-6'>
+              <h1 className="text-3xl font-bold mb-4">Beranda</h1>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                <div className="bg-white shadow-md rounded-md p-4">
+                  Total Produk Terjual: {totalTerjual}
+                </div>
+                <div className="bg-white shadow-md rounded-md p-4">
+                  Dampak Lingkungan: 89
+                </div>
+                <div className="bg-white shadow-md rounded-md p-4">
+                  Total Secondary Revenue: 89
+                </div>
+                <div className="bg-white shadow-md rounded-md p-4">
+                  Total Produk Terjual: 89
+                </div>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="bg-white shadow-md rounded-md p-4">
+                  <h2 className="text-2xl font-bold mb-4">🌱 Produk Terlaris</h2>
+                  <ul className='flex flex-col gap-4'>
+                    {produkTerlaris?.map(product => (
+                      <li key={product.productId}>
+                      <div className="font-semibold">{product.nama}</div>
+                      <div>Terjual: {product.terjual || 0}</div>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              <div className="bg-white shadow-md rounded-md p-4">
+                <h2 className="text-2xl font-bold mb-4">⭐ 3 Rating Terbaik</h2>
+                <ul className='flex flex-col gap-4'>
+                  {produkRatingTerbaik?.map(product => {
+                    const averageRating = (product.reviews?.reduce((total, review) => total + review.rating, 0) / product.reviews?.length) || 0;
+                    return (
+                      <li key={product.productId}>
+                      <div className="font-semibold">{product.nama}</div>
+                      <div>Rating: {averageRating.toFixed(2)}</div>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
-        <div className="bg-white shadow-md rounded-md p-4">
-          <h2 className="text-2xl font-bold mb-4">⭐ 3 Rating Terbaik</h2>
-          <ul className='flex flex-col gap-4'>
-            {produkRatingTerbaik?.map(product => {
-              const averageRating = (product.reviews?.reduce((total, review) => total + review.rating, 0) / product.reviews?.length) || 0;
-              return (
-                <li key={product.productId}>
-                  <div className="font-semibold">{product.nama}</div>
-                  <div>Rating: {averageRating.toFixed(2)}</div>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-      </div>
-    </div>
     )
 }
 

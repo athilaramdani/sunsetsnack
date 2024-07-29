@@ -9,8 +9,9 @@ export async function POST(req) {
 
         // Hash the password
         const hashedPassword = await bcrypt.hash(password, 10);
+
         // Check if email already exists
-        const existingUserByEmail = await prisma.User.findFirst({
+        const existingUserByEmail = await prisma.user.findFirst({
             where: { email: email }
         });
         if (existingUserByEmail) {
@@ -18,7 +19,7 @@ export async function POST(req) {
         }
 
         // Check if username already exists
-        const existingUserByUsername = await prisma.User.findFirst({
+        const existingUserByUsername = await prisma.user.findFirst({
             where: { username: username }
         });
         if (existingUserByUsername) {
@@ -26,7 +27,7 @@ export async function POST(req) {
         }
 
         // Check if no_telp already exists
-        const existingUserByNoTelp = await prisma.User.findFirst({
+        const existingUserByNoTelp = await prisma.user.findFirst({
             where: { no_telp: no_telp }
         });
         if (existingUserByNoTelp) {
@@ -34,7 +35,7 @@ export async function POST(req) {
         }
 
         // Create the new user
-        const newUser = await prisma.User.create({
+        const newUser = await prisma.user.create({
             data: {
                 nama,
                 username,
@@ -44,7 +45,7 @@ export async function POST(req) {
             }
         });
 
-        return NextResponse.json({ user: newUser, message: "User created successfully" });
+        return NextResponse.json({ user: newUser, userId: newUser.userId, message: "User created successfully" });
     } catch (error) {
         console.error(error);
         return NextResponse.json({ error: 'Failed to process request' }, { status: 500 });

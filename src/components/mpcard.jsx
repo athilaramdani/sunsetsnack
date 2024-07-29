@@ -4,9 +4,9 @@ import Link from 'next/link';
 
 const MPCard = ({ image, name, toko, rating, normalPrice, discountPrice, stock, productId }) => {
   return (
-    <div className="group border rounded-lg shadow-md transition duration-300 hover:shadow-xl overflow-hidden">
+    <div className="group border rounded-lg shadow-md transition duration-300 hover:shadow-xl overflow-hidden w-40 md:w-72">
       <Link href={`/productpage?productId=${productId}`}>
-        <div className="relative w-full h-56 overflow-hidden rounded-t-lg">
+        <div className="relative w-full h-48 sm:h-56 md:h-64 lg:h-80 overflow-hidden rounded-t-lg">
           <Image
             src={image}
             alt={name}

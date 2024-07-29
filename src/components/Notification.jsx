@@ -1,23 +1,24 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell } from '@fortawesome/free-solid-svg-icons';
+import { format } from 'date-fns';
 
-const notifications = [
-  { message: 'Pembelianmu Berhasil Dilakukan', date: '8 Juni 2024' },
-  { message: 'Akunmu berhasil terdaftar', date: '8 Juni 2024' }
-];
+const Notification = ({ notifications }) => {
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return format(date, 'dd-MM-yyyy');
+  };
 
-const Notification = () => {
   return (
-    <div className="max-w-md mx-auto bg-white shadow-md rounded-lg p-6 mt-10 border">
-      <h1 className="text-2xl font-bold mb-4">Notifikasi</h1>
+    <div className="max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg mx-auto bg-white shadow-md rounded-lg p-4 sm:p-6 md:p-8 lg:p-10 mt-10 border">
+      <h1 className="text-lg font-bold mb-4">Notifikasi</h1>
       <ul>
         {notifications.map((notification, index) => (
-          <li key={index} className="flex items-center border-b py-4">
-            <FontAwesomeIcon icon={faBell} className="text-yellow-400 w-6 h-6 mr-4" />
+          <li key={index} className="flex items-center border-b py-2 sm:py-3 md:py-4">
+            <FontAwesomeIcon icon={faBell} className="text-yellow-400 w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 lg:w-8 lg:h-8 mr-2 sm:mr-3 md:mr-4" />
             <div>
-              <p className="text-lg font-semibold">{notification.message}</p>
-              <p className="text-gray-500">{notification.date}</p>
+              <p className="text-sm sm:text-base md:text-lg lg:text-xl font-semibold">{notification.pesan}</p>
+              <p className="text-gray-500 text-xs sm:text-sm md:text-base lg:text-lg">{formatDate(notification.tanggalnotifikasi)}</p>
             </div>
           </li>
         ))}

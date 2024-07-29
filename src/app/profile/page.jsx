@@ -3,10 +3,10 @@
 import Navbar from '@/components/Navbar/navbar';
 import ProfileCard from '@/components/profilecard';
 import SettingProfile from '@/components/SettingProfile';
-import History from '@/components/historylist';
+import History from '@/components/HistoryList';
 import Seller from '@/components/FormSeller';
 import GoToDashboardSeller from '@/components/gotodashboardseller';
-import UlasForm from '@/components/ulasform'; // Import the UlasForm component
+import UlasForm from '@/components/UlasForm';
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 
@@ -15,7 +15,35 @@ const Profile = () => {
   const [selectedPage, setSelectedPage] = useState('profile');
   const [user, setUser] = useState(null);
   const [showUlasForm, setShowUlasForm] = useState(false);
+  const [selectedOrderDetail, setSelectedOrderDetail] = useState(null);
   const [carts, setCarts] = useState([]);
+  const [notifications, setNotifications] = useState([]);
+  const [finish, setFinish] = useState([]);
+  const [queue, setQueue] = useState([]);
+  const [canceled, setCanceled] = useState([]);
+
+  useEffect(() => {
+    if (status === 'authenticated') {
+      const fetchNotifications = async () => {
+        try {
+          const response = await fetch('/api/notifications/getnotifications', {
+            headers: {
+              'user-id': session.user.userId,
+            },
+          });
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          const data = await response.json();
+          setNotifications(data.notifications);
+        } catch (error) {
+          console.error('Error fetching notifications:', error);
+        }
+      };
+
+      fetchNotifications();
+    }
+  }, [session, status]);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -36,40 +64,85 @@ const Profile = () => {
     fetchUser();
   }, []);
 
-  const handleShowUlasForm = () => {
+  const handleShowUlasForm = (orderDetail) => {
+    setSelectedOrderDetail(orderDetail);
     setShowUlasForm(true);
   };
 
   const handleCloseUlasForm = () => {
     setShowUlasForm(false);
+    setSelectedOrderDetail(null);
+  };
+
+  const handleUlasFormSubmit = async (formData) => {
+    try {
+      const response = await fetch('/api/reviews/addreviews', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'user-id': session.user.userId,
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Review submitted successfully:', data);
+        handleCloseUlasForm();
+        window.location.reload();
+      } else {
+        const errorData = await response.json();
+        console.error('Error submitting review:', errorData);
+      }
+    } catch (error) {
+      console.error('Error submitting review:', error);
+    }
   };
 
   useEffect(() => {
     if (status === 'authenticated') {
-      const fetchCart = async () => {
+      const fetchPembelian = async () => {
         try {
-          const response = await fetch('/api/cart/getcart', {
+          const response = await fetch('/api/pembayaran/getpembayaranuserpage', {
             headers: {
-              'user-id': session.user.userId, // Menggunakan userId dari sesi
+              'user-id': session.user.userId,
             },
           });
           if (!response.ok) {
             throw new Error('Network response was not ok');
           }
           const data = await response.json();
-          setCarts(data.cartItems);
+
+          const finish = [];
+          const queue = [];
+          const canceled = [];
+
+          data.forEach(order => {
+            order.orderDetails.forEach(detail => {
+              if (detail.status === 'finish') {
+                finish.push({ ...detail, date: order.tanggalPesanan, orderId: order.orderId });
+              } else if (detail.status === 'queue') {
+                queue.push({ ...detail, date: order.tanggalPesanan, orderId: order.orderId });
+              } else if (detail.status === 'canceled') {
+                canceled.push({ ...detail, date: order.tanggalPesanan, orderId: order.orderId });
+              }
+            });
+          });
+
+          setFinish(finish);
+          setQueue(queue);
+          setCanceled(canceled);
         } catch (error) {
-          console.error('Error fetching cart:', error);
+          console.error('Error fetching pembelian:', error);
         }
       };
 
-      fetchCart();
+      fetchPembelian();
     }
   }, [session, status]);
-
+  console.log("finish", finish)
   return (
     <div>
-      <Navbar carts={carts} user = {user}/>
+      <Navbar carts={carts} user={user} notifications={notifications} />
       <div className='max-w-screen-2xl mx-auto'>
         <div className="flex flex-col md:flex-row gap-6 p-4">
           <div className="w-full md:w-1/4">
@@ -82,13 +155,23 @@ const Profile = () => {
               <>
                 {selectedPage === 'history' && (
                   <>
-                    <History onUlasClick={handleShowUlasForm} />
+                    <History
+                      onUlasClick={handleShowUlasForm}
+                      finish={finish}
+                      queue={queue}
+                      canceled={canceled}
+                    />
                     {showUlasForm && (
                       <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
                         <div className="flex justify-center flex-col bg-white p-4 rounded">
-                          <UlasForm />
+                          <UlasForm 
+                            orderDetail={selectedOrderDetail} 
+                            userId={session.user.userId} 
+                            onClose={handleCloseUlasForm} 
+                            onSubmit={handleUlasFormSubmit} 
+                          />
                           <button
-                            className=" mt-4 bg-red-500 text-white py-2 px-4 rounded"
+                            className="mt-4 bg-red-500 text-white py-2 px-4 rounded"
                             onClick={handleCloseUlasForm}
                           >
                             Close

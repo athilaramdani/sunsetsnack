@@ -7,12 +7,31 @@ import { useSession } from 'next-auth/react';
 
 const Home = () => {
   const { data: session, status } = useSession();
-  const [user, setUser] = useState(null);  // Perbaikan: Mendefinisikan dengan benar
+  const [user, setUser] = useState(null);
   const [cardsData, setCardsData] = useState([]);
   const [error, setError] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const cardsPerPage = 5;
+  const [cardsPerPage, setCardsPerPage] = useState(5);
   const [carts, setCarts] = useState([]);
+  const [notifications, setNotifications] = useState([]);
+
+  // Adjust cardsPerPage based on screen size
+  useEffect(() => {
+    const updateCardsPerPage = () => {
+      const width = window.innerWidth;
+      if (width >= 1024) {
+        setCardsPerPage(5);
+      } else if (width >= 768) {
+        setCardsPerPage(3);
+      } else {
+        setCardsPerPage(1);
+      }
+    };
+
+    updateCardsPerPage();
+    window.addEventListener('resize', updateCardsPerPage);
+    return () => window.removeEventListener('resize', updateCardsPerPage);
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -43,7 +62,7 @@ const Home = () => {
         try {
           const response = await fetch('/api/cart/getcart', {
             headers: {
-              'user-id': session.user.userId, // Menggunakan userId dari sesi
+              'user-id': session.user.userId,
             },
           });
           if (!response.ok) {
@@ -62,6 +81,29 @@ const Home = () => {
 
   useEffect(() => {
     if (status === 'authenticated') {
+      const fetchNotifications = async () => {
+        try {
+          const response = await fetch('/api/notifications/getnotifications', {
+            headers: {
+              'user-id': session.user.userId,
+            },
+          });
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          const data = await response.json();
+          setNotifications(data.notifications); // Change this line
+        } catch (error) {
+          console.error('Error fetching notifications:', error);
+        }
+      };
+
+      fetchNotifications();
+    }
+  }, [session, status]);
+
+  useEffect(() => {
+    if (status === 'authenticated') {
       const fetchUser = async () => {
         try {
           const response = await fetch(`/api/user/userinfo`);
@@ -69,7 +111,6 @@ const Home = () => {
             throw new Error('Network response was not ok');
           }
           const data = await response.json();
-          console.log("data user sebelum di fetch", data)
           setUser(data);
         } catch (error) {
           console.log("cannot show username");
@@ -93,31 +134,29 @@ const Home = () => {
   };
 
   const displayedCards = cardsData.slice(currentIndex, currentIndex + cardsPerPage);
-  console.log("usernya: ", user);
-  console.log("cartnya: ", carts);
 
   return (
     <div>
       <div className='fixed top-0 left-0 w-full z-50'>
-        <Navbar carts={carts} user={user}/>
+        <Navbar carts={carts} user={user} notifications={notifications} />
       </div>
       <div className='pt-32 pb-24 max-w-screen-2xl mx-auto p-8'>
         <div>
           <h1 className="text-2xl font-bold mb-4">🌱 Yuk, Segera Selamatkan!</h1>
           <p className="text-lg mb-8">Mulai beri dampak nyata dari sekarang</p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 md:gap-8 gap-2">
           {cardsData.map((card) => (
             <MPCard 
               key={card.productId}
               image={card.image || "/images/products/delivery-box.png"}
               name={card.nama}
-              toko={card.toko}  // Menggunakan nama toko
+              toko={card.toko}
               rating={4.5}
               normalPrice={card.harga}
               discountPrice={card.harga * 0.9}
               stock={card.stok}
-              productId={card.productId}  // Pass productId
+              productId={card.productId}
             />
           ))}
         </div>
@@ -129,22 +168,22 @@ const Home = () => {
               <h1 className="text-2xl font-bold mb-4">🌱 Penawaran Menarik!</h1>
               <p className="text-lg mb-8">Menu oke, dengan penawaran menarik</p>
             </div>
-            <div className="flex justify-between items-center ">
+            <div className="flex items-center justify-between">
               <button onClick={handlePrevious} disabled={currentIndex === 0} className="px-4 py-2 bg-primary text-white rounded disabled:bg-gray-400">
                 &lt;
               </button>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mx-4 flex-grow">
+              <div className="flex overflow-x-auto md:gap-8 gap-2 px-4">
                 {displayedCards.map((card) => (
                   <MPCard 
                     key={card.productId}
                     image={card.image || "/images/products/delivery-box.png"}
                     name={card.nama}
-                    location={card.toko}  // Menggunakan nama toko
+                    location={card.toko}
                     rating={4.5}
                     normalPrice={card.harga}
                     discountPrice={card.harga * 0.9}
                     stock={card.stok}
-                    productId={card.productId}  // Pass productId
+                    productId={card.productId}
                   />
                 ))}
               </div>
@@ -153,8 +192,8 @@ const Home = () => {
               </button>
             </div>
           </div>
-          <div className='flex justify-center pt-8'>
-            <button className='bg-[#A8C4B4] px-32 py-4 rounded-xl text-[#2C6E49] font-bold'>Lihat Semua</button>
+          <div className='flex justify-center items-center pt-8'>
+            <button className='bg-[#A8C4B4] px-8 md:px-32 py-2 md:py-4 rounded-xl text-[#2C6E49] font-bold'>Lihat Semua</button>
           </div>
         </div>
       </div>

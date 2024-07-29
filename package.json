@@ -20,6 +20,7 @@
     "axios": "^1.7.2",
     "bcrypt": "^5.1.1",
     "crypto": "^1.0.1",
+    "date-fns": "^3.6.0",
     "express": "^4.19.2",
     "firebase": "^10.12.3",
     "formidable": "^3.5.1",

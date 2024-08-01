@@ -10,7 +10,7 @@ import { useSession } from 'next-auth/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import SettingToko from '@/components/dbseller/settingtoko';
-
+export const dynamic = "force-static";
 const Dashboard = () => {
   const { data: session, status } = useSession();
   const [selectedPage, setSelectedPage] = useState('beranda');

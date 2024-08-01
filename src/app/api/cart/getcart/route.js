@@ -1,6 +1,6 @@
 import prisma from '@/libs/prisma';
 
-export const GET = async (req, res) => {
+export const GET = async (req) => {
   try {
     const userId = parseInt(req.headers.get('user-id'), 10);
 
@@ -29,19 +29,19 @@ export const GET = async (req, res) => {
     if (!cart) {
       return new Response(JSON.stringify({ cartItems: [] }), {
         status: 200,
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' },
       });
     }
 
     return new Response(JSON.stringify(cart), {
       status: 200,
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' },
     });
   } catch (error) {
     console.error(error);
     return new Response(JSON.stringify({ message: 'Internal server error' }), {
       status: 500,
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' },
     });
   } finally {
     await prisma.$disconnect();

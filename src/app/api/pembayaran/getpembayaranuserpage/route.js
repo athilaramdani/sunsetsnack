@@ -1,5 +1,4 @@
 import prisma from '@/libs/prisma';
-export const dynamic = "force-static";
 export const GET = async (req, res) => {
   try {
     const userId = parseInt(req.headers.get('user-id'), 10);

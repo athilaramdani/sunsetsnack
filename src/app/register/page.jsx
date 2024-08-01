@@ -16,6 +16,8 @@ const Register = () => {
     confirmPassword: '',
   });
   const [passwordsMatch, setPasswordsMatch] = useState(true);
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setIsVisible(true);
@@ -39,44 +41,35 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (formData.password !== formData.confirmPassword) {
+    if (!passwordsMatch) {
+      setError('Passwords do not match.');
       return;
     }
+
+    setIsLoading(true);
 
     try {
       const response = await axios.post('/api/user/loginregister', formData);
       if (response.status === 200) {
+        const userId = response.data.user.userId;
         try {
-          const userId = response.data.user.userId;
           const notificationResponse = await axios.post('/api/notifications/addnotifications', {
-            title: 'akun berhasil diregistrasi',
+            title: 'Akun berhasil diregistrasi',
             message: 'Akun baru saja diregistrasi.',
             userId: userId,
           });
           if (notificationResponse.status === 200) {
             Router.push('/login');
           }
-        } catch (error) {
-          alert('Notification failed: ' + (error.response?.data?.error || error.message));
+        } catch (notificationError) {
+          alert('Notification failed: ' + (notificationError.response?.data?.error || notificationError.message));
         }
         Router.push('/login');
       }
     } catch (error) {
-      alert('Registration failed: ' + (error.response?.data?.error || error.message));
+      setError('Registration failed, Have you registered before? make sure your email/username/telephone number is not the same as another account');
+      setIsLoading(false);
     }
-  };
-
-  const isFormValid = () => {
-    return (
-      formData.nama.trim() !== '' &&
-      formData.username.trim() !== '' &&
-      formData.email.trim() !== '' &&
-      formData.no_telp.trim() !== '' &&
-      formData.password !== '' &&
-      formData.confirmPassword !== '' &&
-      passwordsMatch &&
-      document.getElementById('terms')?.checked
-    );
   };
 
   return (
@@ -103,6 +96,7 @@ const Register = () => {
         </div>
         <div className={`bg-white p-4 mb-16 lg:mb-0 rounded-lg shadow-md w-full max-w-lg transition-opacity duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
           <h2 className="text-2xl mb-4 text-center">Register</h2>
+          {error && <div className="text-red-500 text-left">{error}</div>}
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
               <label className="block text-black font-bold py-2">Nama Lengkap</label>
@@ -189,16 +183,26 @@ const Register = () => {
             </div>
             <button
               type="submit"
-              className={`w-full border border-highlight ease-in-out transition-all bg-white text-highlight font-bold py-2 px-4 rounded-md hover:bg-highlight hover:text-white`}
-              disabled={!isFormValid()}
+              className={`w-full border border-highlight ease-in-out transition-all bg-white text-highlight font-bold py-2 px-4 rounded-md hover:bg-highlight hover:text-white flex items-center justify-center ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
+              disabled={isLoading}
             >
-              Daftar
+              {isLoading ? (
+                <>
+                  <svg className="animate-spin h-5 w-5 mr-3" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                  </svg>
+                  Processing...
+                </>
+              ) : (
+                'Daftar'
+              )}
             </button>
           </form>
           <div className="mt-4 text-center">
             <p>
               Sudah punya akun?{' '}
-              <Link href="/login" className="text-black underline font-bold hover:text-highlight ease-in-out transition-all">
+              <Link href="/login" className="text-highlight font-bold transition-all hover:text-black">
                 Masuk
               </Link>
             </p>

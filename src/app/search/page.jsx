@@ -19,14 +19,17 @@ const Home = () => {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const id = params.get('q');
-    setQ(id);
+    if (id) {
+      setQ(id);
+    }
   }, []);
 
   useEffect(() => {
+    if (q !== null) {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`/api/search?q=${q}`);
+        const response = await fetch(`/api/search?q=${encodeURIComponent(q)}`);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -41,7 +44,9 @@ const Home = () => {
     };
 
     fetchData();
+  }
   }, [q]);
+  console.log(queryData)
 
   useEffect(() => {
     if (status === 'authenticated') {

@@ -19,9 +19,11 @@ const Login = () => {
       [e.target.name]: e.target.value,
     });
   };
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     let identifierType = '';
 
     if (/^\d+$/.test(formData.identifier)) {
@@ -41,6 +43,7 @@ const Login = () => {
 
     if (result?.error) {
       setError(true);
+      setIsLoading(false);
     } else {
       Router.push('/');
     }
@@ -54,6 +57,7 @@ const Login = () => {
     <div className="bg-primary flex items-center justify-center min-h-screen">
       <div className="flex flex-col lg:flex-row items-center gap-10 w-full max-w-7xl px-4 md:px-8 lg:px-16">
         <div className={`pt-16 lg:pt-0 flex flex-col gap-4 mb-10 lg:mb-0 lg:w-1/2 text-center lg:text-left transition-opacity duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+          <Link href="/">
             <svg
               width="65"
               height="38"
@@ -67,6 +71,7 @@ const Login = () => {
                 fill="#FFFFFF"
               />
             </svg>
+          </Link>
             <h1 className="text-white text-xl font-bold">Selamat Datang!</h1>
             <p className="text-white">Mulai berkontribusi dan beri dampak nyata sekarang juga</p>
           </div>
@@ -96,8 +101,22 @@ const Login = () => {
                 placeholder="Masukkan password anda"
               />
             </div>
-            <button type="submit" className="w-full border border-highlight ease-in-out transition-all bg-white text-highlight font-bold py-2 px-4 rounded-md hover:bg-highlight hover:text-white">
-              Login
+            <button
+              type="submit"
+              className={`w-full border border-highlight ease-in-out transition-all bg-white text-highlight font-bold py-2 px-4 rounded-md hover:bg-highlight hover:text-white flex items-center justify-center ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <>
+                  <svg className="animate-spin h-5 w-5 mr-3" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                  </svg>
+                  Processing...
+                </>
+              ) : (
+                'login'
+              )}
             </button>
           </form>
           <div className="mt-4 text-center">

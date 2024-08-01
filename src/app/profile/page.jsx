@@ -66,20 +66,16 @@ const Profile = () => {
 
       const fetchPembelian = async () => {
         try {
-          const response = await fetch('/api/pembayaran/getpembayaranuserpage', {
-            headers: {
-              'user-id': session.user.userId,
-            },
-          });
+          const response = await fetch(`/api/pembayaran/getpembayaranuserpage?user-id=${session.user.userId}`);
           if (!response.ok) {
             throw new Error('Network response was not ok');
           }
           const data = await response.json();
-
+      
           const finish = [];
           const queue = [];
           const canceled = [];
-
+      
           data.forEach(order => {
             order.orderDetails.forEach(detail => {
               if (detail.status === 'finish') {
@@ -91,7 +87,7 @@ const Profile = () => {
               }
             });
           });
-
+      
           setFinish(finish);
           setQueue(queue);
           setCanceled(canceled);
@@ -99,7 +95,7 @@ const Profile = () => {
           console.error('Error fetching pembelian:', error);
         }
       };
-
+      
       fetchPembelian();
     }
   }, [session, status]);

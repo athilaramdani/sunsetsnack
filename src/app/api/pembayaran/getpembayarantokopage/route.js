@@ -1,11 +1,13 @@
 import prisma from '@/libs/prisma';
 import { headers } from 'next/headers';
+import { NextResponse } from 'next/server';
 export const GET = async (req, res) => {
+  const requestHeaders = headers();
   try {
-    const userId = parseInt(headers().get('user-id'), 10);
+    const userId = parseInt(requestHeaders.get('user-id'), 10);
 
     if (!userId) {
-      return new Response(JSON.stringify({ message: 'Missing or invalid userId' }), {
+      return new NextResponse(JSON.stringify({ message: 'Missing or invalid userId' }), {
         status: 400,
         headers: { 'Content-Type': 'application/json' },
       });
@@ -18,7 +20,7 @@ export const GET = async (req, res) => {
     });
 
     if (!userToko) {
-      return new Response(JSON.stringify({ message: 'User is not associated with any toko' }), {
+      return new NextResponse(JSON.stringify({ message: 'User is not associated with any toko' }), {
         status: 404,
         headers: { 'Content-Type': 'application/json' },
       });
@@ -50,13 +52,13 @@ export const GET = async (req, res) => {
       },
     });
 
-    return new Response(JSON.stringify(orders), {
+    return new NextResponse(JSON.stringify(orders), {
       status: 200,
       headers: { 'Content-Type': 'application/json' },
     });
   } catch (error) {
     console.error(error);
-    return new Response(JSON.stringify({ message: 'Internal server error' }), {
+    return new NextResponse(JSON.stringify({ message: 'Internal server error' }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },
     });

@@ -3,19 +3,23 @@ import GeraiCard from '@/components/geraicard';
 import Navbar from '@/components/Navbar/navbar';
 import Footer from '@/components/Footer/footer';
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 
 const GeraiDetail = () => {
   const { data: session, status } = useSession();
   const [cardsData, setCardsData] = useState([]);
   const [error, setError] = useState(null);
-  const searchParams = useSearchParams();
-  const productId = searchParams.get('productId');
   const [product, setProduct] = useState(null);
   const [carts, setCarts] = useState([]);
   const [user, setUser] = useState(null);  // Perbaikan: Mendefinisikan dengan benar
   const [notifications, setNotifications] = useState([]);
+  const [productId, setProductId] = useState(null);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('productId');
+    setProductId(id);
+  }, []);
   
   useEffect(() => {
     if (status === 'authenticated') {
@@ -132,7 +136,7 @@ const GeraiDetail = () => {
               image={card.image || "/images/products/delivery-box.png"}
               name={card.nama}
               deskripsi={card.deskripsi}
-              rating={4.5}
+              reviews={card.reviews}
               normalPrice={card.harga}
               discountPrice={card.harga * 0.9}
               stock={card.stok}

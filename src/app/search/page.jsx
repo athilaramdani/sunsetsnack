@@ -5,7 +5,6 @@ import Footer from '@/components/Footer/footer';
 import MPCard from '@/components/mpcard';
 import CardToko from '@/components/cardToko';
 import { useSession } from 'next-auth/react';
-import { useSearchParams } from 'next/navigation';
 
 const Home = () => {
   const { data: session, status } = useSession();
@@ -15,8 +14,13 @@ const Home = () => {
   const [error, setError] = useState(null);
   const [carts, setCarts] = useState([]);
   const [notifications, setNotifications] = useState([]);
-  const searchParams = useSearchParams();
-  const q = searchParams.get('q');
+  const [q, setQ] = useState(null);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('q');
+    setQ(id);
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {

@@ -15,7 +15,6 @@ const Home = () => {
   const [carts, setCarts] = useState([]);
   const [notifications, setNotifications] = useState([]);
 
-  // Adjust cardsPerPage based on screen size
   useEffect(() => {
     const updateCardsPerPage = () => {
       const width = window.innerWidth;
@@ -40,14 +39,8 @@ const Home = () => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
-        const products = await response.json();
-
-        const detailedProducts = await Promise.all(products.map(async (product) => {
-          const tokoResponse = await fetch(`/api/toko/gettokoasproduct?productId=${product.productId}`);
-          const tokoData = await tokoResponse.json();
-          return { ...product, toko: tokoData.nama };
-        }));
-        setCardsData(detailedProducts);
+        const data = await response.json();
+        setCardsData(data);
       } catch (error) {
         setError(error.message);
       }

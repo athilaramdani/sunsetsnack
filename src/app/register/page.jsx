@@ -83,6 +83,7 @@ const Register = () => {
     <div className="bg-primary flex items-center justify-center min-h-screen">
       <div className="flex flex-col lg:flex-row items-center gap-10 w-full max-w-7xl px-4 md:px-8 lg:px-16">
         <div className={`pt-16 lg:pt-0 flex flex-col gap-4 mb-10 lg:mb-0 lg:w-1/2 text-center lg:text-left transition-opacity duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+          <Link href="/">
           <svg
             width="65"
             height="38"
@@ -96,6 +97,7 @@ const Register = () => {
               fill="#FFFFFF"
             />
           </svg>
+          </Link>
           <h1 className="text-white text-xl font-bold">Selamat Datang!</h1>
           <p className="text-white">Mulai berkontribusi dan beri dampak nyata sekarang juga</p>
         </div>

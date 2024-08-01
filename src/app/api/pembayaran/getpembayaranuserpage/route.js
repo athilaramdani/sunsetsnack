@@ -2,8 +2,9 @@ import prisma from '@/libs/prisma';
 import { headers } from 'next/headers';
 import { NextResponse } from 'next/server';
 export const GET = async (req, res) => {
+  const requestHeaders = headers();
   try {
-    const userId = parseInt(headers().get('user-id'), 10);
+    const userId = parseInt(requestHeaders.get('user-id'), 10);
 
     if (!userId) {
       return new NextResponse(JSON.stringify({ message: 'Missing or invalid userId' }), {

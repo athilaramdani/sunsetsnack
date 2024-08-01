@@ -10,7 +10,7 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Notification from '@/components/notification';
 import CartPopUp from '@/components/cartPopUp';
-import ProfilePopUp from '@/components/popupprofile';
+import ProfilePopUp from '@/components/popUpProfile';
 
 library.add(faCartShopping, faBell, faBars);
 

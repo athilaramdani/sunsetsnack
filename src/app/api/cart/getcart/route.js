@@ -1,8 +1,9 @@
 import prisma from '@/libs/prisma';
+import { headers } from 'next/headers';
 
 export const GET = async (req) => {
   try {
-    const userId = parseInt(req.headers.get('user-id'), 10);
+    const userId = parseInt(headers().get('user-id'), 10);
 
     if (!userId) {
       return new Response(JSON.stringify({ message: 'Missing or invalid userId' }), {
@@ -29,19 +30,19 @@ export const GET = async (req) => {
     if (!cart) {
       return new Response(JSON.stringify({ cartItems: [] }), {
         status: 200,
-        headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' },
+        headers: { 'Content-Type': 'application/json' },
       });
     }
 
     return new Response(JSON.stringify(cart), {
       status: 200,
-      headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' },
+      headers: { 'Content-Type': 'application/json' },
     });
   } catch (error) {
     console.error(error);
     return new Response(JSON.stringify({ message: 'Internal server error' }), {
       status: 500,
-      headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' },
+      headers: { 'Content-Type': 'application/json' },
     });
   } finally {
     await prisma.$disconnect();

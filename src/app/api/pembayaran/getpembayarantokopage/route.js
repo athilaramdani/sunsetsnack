@@ -1,7 +1,8 @@
 import prisma from '@/libs/prisma';
+import { headers } from 'next/headers';
 export const GET = async (req, res) => {
   try {
-    const userId = parseInt(req.headers.get('user-id'), 10);
+    const userId = parseInt(headers().get('user-id'), 10);
 
     if (!userId) {
       return new Response(JSON.stringify({ message: 'Missing or invalid userId' }), {

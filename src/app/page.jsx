@@ -95,7 +95,6 @@ const Home = () => {
     }
   }, [session, status]);
 
-  console.log(notifications)
 
   useEffect(() => {
     if (status === 'authenticated') {

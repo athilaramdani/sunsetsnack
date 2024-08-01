@@ -1,7 +1,6 @@
 "use client"
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
-import { useSearchParams } from 'next/navigation';
 import Navbar from '@/components/Navbar/navbar';
 import ProductTotal from '@/components/producttotal';
 import ReviewCard from '@/components/reviewcard';
@@ -10,14 +9,18 @@ import Image from 'next/image';
 
 const ProductPage = () => {
   const { data: session, status } = useSession();
-  const searchParams = useSearchParams();
-  const productId = searchParams.get('productId');
   const [product, setProduct] = useState(null);
   const [error, setError] = useState(null);
   const [carts, setCarts] = useState([]);
   const [user, setUser] = useState(null);  // Perbaikan: Mendefinisikan dengan benar
   const [notifications, setNotifications] = useState([]);
-  
+  const [productId, setProductId] = useState(null);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('productId');
+    setProductId(id);
+  }, []);
   useEffect(() => {
     if (status === 'authenticated') {
       const fetchNotifications = async () => {

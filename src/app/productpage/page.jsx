@@ -126,7 +126,7 @@ const ProductPage = () => {
             alt={product.nama}
           />
         </div>
-        <div className="flex-grow flex flex-col order-2 md:order-1 lg:w-2/4">
+        <div className="flex-grow flex flex-col order-1 md:order-1 lg:w-2/4">
           <div>
             <h1 className='font-bold'>{product.nama}</h1>
             <div className='flex gap-2 items-center mt-2 justify-center md:justify-start'>

@@ -2,43 +2,30 @@ import Link from 'next/link';
 
 const Footer = () => {
     return (
-      <footer className="bg-gray-100 pt-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-wrap justify-around text-gray-700">
-            <div className="mb-6 md:mb-0">
-              <h2 className="text-2xl font-bold mb-4">Sunset Snack</h2>
-              <ul>
-                {/* <li className="mb-2"><a href="#" className="hover:underline">Tentang Kami</a></li> */}
-                {/* <li className="mb-2"><a href="#" className="hover:underline">Hak kekayaan intelektual</a></li>
-                <li className="mb-2"><a href="#" className="hover:underline">Blog</a></li> */}
-              </ul>
-            {/* </div>
-            <div className="mb-6 md:mb-0">
-              <h3 className="text-xl font-bold mb-4">Bantuan dan Panduan</h3>
-              <ul>
-                <li className="mb-2"><a href="#" className="hover:underline">Syarat dan ketentuan</a></li>
-                <li className="mb-2"><a href="#" className="hover:underline">Kebijakan privasi</a></li>
-                <li className="mb-2"><a href="#" className="hover:underline">Bantuan</a></li>
-              </ul> */}
-            </div>
-            <div className="mb-6 md:mb-0">
-              <h3 className="text-xl font-bold mb-4">Ikuti Kami</h3>
-              <ul className="flex space-x-4">
-                <li><a href="#" className="hover:underline"><i className="fab fa-facebook-f"></i></a></li>
-                <li><a href="#" className="hover:underline"><i className="fab fa-twitter"></i></a></li>
-                <li><a href="#" className="hover:underline"><i className="fab fa-instagram"></i></a></li>
-              </ul>
-            </div>
-            {/* <div className="mb-6 md:mb-0">
-              <h3 className="text-xl font-bold mb-4">Anda memiliki usaha FnB?</h3>
-              <button className="bg-green-200 text-black px-4 py-2 rounded hover:bg-green-300">Daftar sebagai mitra</button>
-              <a href="#" className="block mt-2 text-blue-500 hover:underline">Informasi lebih lanjut</a>
-            </div> */}
+      <footer>
+        <div className="bg-gray-100 flex items-center h-28 md:h-32 justify-between px-4 md:px-16">
+          <div className="flex gap-4 items-center">
+            <svg
+                width="65"
+                height="38"
+                viewBox="0 0 65 38"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                className="transition-transform transform hover:scale-110"
+              >
+                <path
+                  d="M23.5 0.690466C11.1 3.89047 0 17.4905 0 29.4905C0 35.3905 1.7 37.7905 5.9 37.7905C8.9 37.7905 11 36.1905 11 33.7905C11 32.8905 11.7 29.8905 12.5 26.9905C15.5 16.9905 22.5 11.7905 33 11.7905C44.5 11.7905 50.5 17.6905 53.5 31.9905C54.2 35.6905 56.6 37.7905 59.9 37.7905C64 37.7905 65.1 35.7905 64.9 29.2905C64.4 18.4905 57.3 8.09047 46.5 2.49047C42.1 0.290466 29 -0.809534 23.5 0.690466Z"
+                  fill="#406B40"
+                />
+              </svg>
+              <div>
+                <h1 className="font-bold md:text-xl text-[#406B40]">Sunset Snack</h1>
+                <p className="text-sm md:text-base text-[#406B40]">Bandung-Indonesia</p>
+              </div>
           </div>
-        </div>
-        <div className="bg-green-300 text-black py-4 mt-10">
-          <div className="max-w-7xl mx-auto text-center">
-            <p>©Sunset Snack, 2024. ALL RIGHTS RESERVED</p>
+          <div className="flex flex-col justify-center">
+            <h1 className="md:text-xl text-[#406B40]">Created by</h1>
+            <p className="text-xs md:text-base text-[#406B40]">Team D--CCIHack</p>
           </div>
         </div>
       </footer>

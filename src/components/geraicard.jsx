@@ -39,7 +39,7 @@ const GeraiCard = ({ image, name, deskripsi, rating, normalPrice, discountPrice,
   };
 
   return (
-    <div className="border rounded-lg shadow-md w-full">
+    <div className="border rounded-lg shadow-md w-52 md:w-96">
       <div className="relative w-full h-48">
         <Image 
           src={image}

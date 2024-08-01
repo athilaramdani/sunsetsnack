@@ -87,10 +87,10 @@ const Navbar = ({ carts, user, notifications }) => {
   };
 
   return (
-    <nav className="bg-white p-3 md:p-5 outline outline-1 outline-[#AEB2BE] shadow-sm">
+    <nav className="bg-white py-2 md:p-5 outline outline-1 outline-[#AEB2BE] shadow-sm">
       <div className="max-w-screen-xl mx-auto">
-        <ul className="flex justify-around items-center px-2 md:px-10 gap-2 md:gap-8">
-          <li className="hidden md:block">
+        <ul className="flex justify-around items-center px-1 md:px-10 gap-1 md:gap-8">
+          <li className="flex items-center px-3">
             <Link href="/" className="text-black">
               <svg
                 width="65"
@@ -98,7 +98,7 @@ const Navbar = ({ carts, user, notifications }) => {
                 viewBox="0 0 65 38"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                className="transition-transform transform hover:scale-110"
+                className="transition-transform transform hover:scale-110 w-12 md:w-32 md:h-19"
               >
                 <path
                   d="M23.5 0.690466C11.1 3.89047 0 17.4905 0 29.4905C0 35.3905 1.7 37.7905 5.9 37.7905C8.9 37.7905 11 36.1905 11 33.7905C11 32.8905 11.7 29.8905 12.5 26.9905C15.5 16.9905 22.5 11.7905 33 11.7905C44.5 11.7905 50.5 17.6905 53.5 31.9905C54.2 35.6905 56.6 37.7905 59.9 37.7905C64 37.7905 65.1 35.7905 64.9 29.2905C64.4 18.4905 57.3 8.09047 46.5 2.49047C42.1 0.290466 29 -0.809534 23.5 0.690466Z"
@@ -140,7 +140,7 @@ const Navbar = ({ carts, user, notifications }) => {
               onMouseLeave={() => handleMouseLeave(setShowNotifications, hideNotificationTimeout)}
             >
               <Link href="/notifikasi" className="text-black hover:text-primary">
-                <FontAwesomeIcon icon="fa-regular fa-bell" className="mx-4 cursor-pointer hover:scale-125 transition-transform transform" />
+                <FontAwesomeIcon icon="fa-regular fa-bell" className="mx-3 cursor-pointer hover:scale-125 transition-transform transform" />
               </Link>
               {showNotifications && (
                 <div
@@ -152,13 +152,15 @@ const Navbar = ({ carts, user, notifications }) => {
                 </div>
               )}
             </div>
-            <div
+          </li>
+          <li>
+          <div
               className="relative"
               onMouseEnter={() => handleMouseEnter(setShowCartPopUp, hideCartPopUpTimeout)}
               onMouseLeave={() => handleMouseLeave(setShowCartPopUp, hideCartPopUpTimeout)}
             >
               <Link href="/keranjang" className="text-black hover:text-primary">
-                <FontAwesomeIcon icon="fa-solid fa-cart-shopping" className="mx-4 cursor-pointer hover:scale-125 transition-transform transform" />
+                <FontAwesomeIcon icon="fa-solid fa-cart-shopping" className="mx-3 cursor-pointer hover:scale-125 transition-transform transform" />
               </Link>
               {showCartPopUp && (
                 <div

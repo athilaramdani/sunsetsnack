@@ -213,7 +213,7 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <Footer />
+      <Footer className="inset-x-0 bottom-0"/>
     </div>
   );
 };

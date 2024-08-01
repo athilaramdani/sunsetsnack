@@ -172,6 +172,7 @@ const Home = () => {
               <CardToko
                 key={tokoItem.tokoId}
                 toko={tokoItem}
+                tokoId={tokoItem.tokoId}
               />
             ))
           ) : (

@@ -9,7 +9,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Notification from '@/components/notification';
-import CartPopUp from '@/components/cartpopup';
+import CartPopUp from '@/components/cartPopUp';
 import ProfilePopUp from '@/components/popupprofile';
 
 library.add(faCartShopping, faBell, faBars);

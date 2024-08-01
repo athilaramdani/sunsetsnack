@@ -30,13 +30,11 @@ const PaymentMethod = ({ total, onPay }) => {
           {['Mandiri', 'BNI', 'BRI', 'BCA'].map((bank) => (
             <div
               key={bank}
-              className={`flex items-center p-2 border 'border-green-500' rounded`}
+              className={`flex items-center p-2 border 'border-green-500' rounded cursor-pointer`}
             >
-              <div className='flex'>
-                <img src={`/images/${bank.toLowerCase()}.png`} alt={bank} className="w-6 h-6 mr-3" />
-                <span className="flex-grow">Transfer Bank {bank}</span>
-                <input type="radio" name="payment" className="form-radio" readOnly />
-              </div>
+              <img src={`/images/${bank.toLowerCase()}.png`} alt={bank} className="w-6 h-6 mr-3" />
+              <span className="flex-grow">Transfer Bank {bank}</span>
+              <input type="radio" name="payment" className="form-radio" readOnly />
             </div>
           ))}
         </div>

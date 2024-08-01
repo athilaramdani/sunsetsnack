@@ -10,6 +10,9 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 export const metadata = {
   title: "Sunset Snack",
   description: "Surplus web application",
+  icons:{
+    icon:['/favicon.ico?v=1']
+  }
 };
 
 export default function RootLayout({ children }) {

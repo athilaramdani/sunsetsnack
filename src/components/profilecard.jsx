@@ -44,25 +44,25 @@ const ProfileCard = ({ onMenuItemClick }) => {
         <ul className="space-y-2">
           <li>
             <a onClick={() => onMenuItemClick('history')} className="block px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 cursor-pointer">
-              <FontAwesomeIcon icon={faReceipt} className="mr-2" />
+              <FontAwesomeIcon icon={faReceipt} className="mr-2 text-sm" />
               Pembelian
             </a>
           </li>
           <li>
             <a onClick={() => onMenuItemClick('kupon')} className="block px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 cursor-pointer">
-              <FontAwesomeIcon icon={faTicket} className="mr-2" />
+              <FontAwesomeIcon icon={faTicket} className="mr-2 text-sm" />
               Kupon Saya
             </a>
           </li>
           <li>
             <a onClick={() => onMenuItemClick('profile')} className="block px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 cursor-pointer">
-              <FontAwesomeIcon icon={faGear} className="mr-2" />
+              <FontAwesomeIcon icon={faGear} className="mr-2 text-sm" />
               Pengaturan
             </a>
           </li>
           <li>
             <a onClick={() => onMenuItemClick('seller')} className="block px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 cursor-pointer">
-              <FontAwesomeIcon icon={faStore} className="mr-2" />
+              <FontAwesomeIcon icon={faStore} className="mr-2 text-sm" />
               {sellerButton}
             </a>
           </li>

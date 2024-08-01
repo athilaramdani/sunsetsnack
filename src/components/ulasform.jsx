@@ -52,7 +52,7 @@ const UlasForm = ({ orderDetail, userId, onClose, onSubmit }) => {
   };
 
   return (
-    <div className='border'>
+    <div className='border rounded'>
       <form onSubmit={handleSubmit} className="w-96 p-4">
         <div className="flex text-xs gap-4 font-light pb-2">
           <p>{new Date(orderDetail?.date).toLocaleDateString()}</p>
@@ -89,7 +89,7 @@ const UlasForm = ({ orderDetail, userId, onClose, onSubmit }) => {
           <input type="file" multiple onChange={handleImageChange} />
           <div className='flex gap-2 mt-2'>
             {imagePreviews.map((src, index) => (
-              <img key={index} src={src} alt={`Preview ${index}`} className='w-16 h-16 object-cover' />
+              <img key={index} src={src} alt={`Preview ${index}`} className='w-12 h-12 object-cover' />
             ))}
           </div>
         </div>

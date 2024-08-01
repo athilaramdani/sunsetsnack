@@ -16,8 +16,8 @@ const BerandaToko = ({toko}) => {
    .slice(0, 3);
     return (
         <div>
-          <div className='pt-6'>
-              <h1 className="text-3xl font-bold mb-4">Beranda</h1>
+          <div className='px-4 sm:px-6 md:px-8 lg:px-10 pt-6'>
+              <h1 className='text-xl sm:text-2xl font-bold mb-4'>Beranda</h1>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
                 <div className="bg-white shadow-md rounded-md p-4">
                   Total Produk Terjual: {totalTerjual}
@@ -64,4 +64,4 @@ const BerandaToko = ({toko}) => {
     )
 }
 
-export default BerandaToko;
+export default BerandaToko; 

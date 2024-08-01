@@ -3,11 +3,42 @@ import GeraiCard from '@/components/geraicard';
 import Navbar from '@/components/Navbar/navbar';
 import Footer from '@/components/Footer/footer';
 import { useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 
 const GeraiDetail = () => {
+  const { data: session, status } = useSession();
   const [cardsData, setCardsData] = useState([]);
   const [error, setError] = useState(null);
+  const searchParams = useSearchParams();
+  const productId = searchParams.get('productId');
+  const [product, setProduct] = useState(null);
+  const [carts, setCarts] = useState([]);
+  const [user, setUser] = useState(null);  // Perbaikan: Mendefinisikan dengan benar
+  const [notifications, setNotifications] = useState([]);
+  
+  useEffect(() => {
+    if (status === 'authenticated') {
+      const fetchNotifications = async () => {
+        try {
+          const response = await fetch('/api/notifications/getnotifications', {
+            headers: {
+              'user-id': session.user.userId,
+            },
+          });
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          const data = await response.json();
+          setNotifications(data.notifications); // Change this line
+        } catch (error) {
+          console.error('Error fetching notifications:', error);
+        }
+      };
 
+      fetchNotifications();
+    }
+  }, [session, status]);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -25,9 +56,56 @@ const GeraiDetail = () => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    if (status === 'authenticated') {
+      const fetchUser = async () => {
+        try {
+          const response = await fetch(`/api/user/userinfo`);
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          const data = await response.json();
+          console.log("data user sebelum di fetch", data)
+          setUser(data);
+        } catch (error) {
+          console.log("cannot show username");
+        }
+      };
+
+      fetchUser();
+    }
+  }, [session, status]);
+
+  useEffect(() => {
+    if (status === 'authenticated') {
+      const fetchCart = async () => {
+        try {
+          const response = await fetch('/api/cart/getcart', {
+            headers: {
+              'user-id': session.user.userId, // Menggunakan userId dari sesi
+            },
+          });
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          const data = await response.json();
+          setCarts(data.cartItems);
+        } catch (error) {
+          console.error('Error fetching cart:', error);
+        }
+      };
+
+      fetchCart();
+    }
+  }, [session, status]);
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
   return (
     <div>
-      <Navbar />
+      <Navbar user={user} carts={carts} notifications={notifications}/>
       <div className='pb-20'>
         <div className='flex pt-32 px-60 gap-7 items-center'>
           <div>LOGO</div>

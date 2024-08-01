@@ -5,7 +5,7 @@ import Link from 'next/link';
 import axios from 'axios';
 
 const Register = () => {
-  const Router = useRouter()
+  const Router = useRouter();
   const [isVisible, setIsVisible] = useState(false);
   const [formData, setFormData] = useState({
     nama: '',
@@ -44,29 +44,27 @@ const Register = () => {
     }
 
     try {
-    const response = await axios.post('/api/user/loginregister', formData);
-    if (response.status === 200) {
-      try {
-        const userId = response.data.user.userId; // Get the userId from the registration response
-        const notificationResponse = await axios.post('/api/notifications/addnotifications', {
-          title: 'akun berhasil diregistrasi',
-          message: 'Akun baru saja diregistrasi.',
-          userId: userId, // Use the userId from the registration response
-        });
-        if (notificationResponse.status === 200) {
-          // Redirect to login page
-          Router.push('/login');
+      const response = await axios.post('/api/user/loginregister', formData);
+      if (response.status === 200) {
+        try {
+          const userId = response.data.user.userId;
+          const notificationResponse = await axios.post('/api/notifications/addnotifications', {
+            title: 'akun berhasil diregistrasi',
+            message: 'Akun baru saja diregistrasi.',
+            userId: userId,
+          });
+          if (notificationResponse.status === 200) {
+            Router.push('/login');
+          }
+        } catch (error) {
+          alert('Notification failed: ' + (error.response?.data?.error || error.message));
         }
-      } catch (error) {
-        alert('Notification failed: ' + (error.response?.data?.error || error.message));
+        Router.push('/login');
       }
-      // Redirect to login page if notification succeeds or fails
-      Router.push('/login');
+    } catch (error) {
+      alert('Registration failed: ' + (error.response?.data?.error || error.message));
     }
-  } catch (error) {
-    alert('Registration failed: ' + (error.response?.data?.error || error.message));
-  }
-};
+  };
 
   const isFormValid = () => {
     return (
@@ -83,11 +81,25 @@ const Register = () => {
 
   return (
     <div className="bg-primary flex items-center justify-center min-h-screen">
-      <div className="flex w-full max-w-7xl">
-        <div className="hidden lg:flex lg:w-1/2 items-center justify-center bg-gray-200 p-2 mx-10">
-          <img src="/logo.png" alt="Logo" className="max-w-xs" />
+      <div className="flex flex-col lg:flex-row items-center gap-10 w-full max-w-7xl px-4 md:px-8 lg:px-16">
+        <div className={`pt-16 lg:pt-0 flex flex-col gap-4 mb-10 lg:mb-0 lg:w-1/2 text-center lg:text-left transition-opacity duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+          <svg
+            width="65"
+            height="38"
+            viewBox="0 0 65 38"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className="transition-transform transform hover:scale-110 mx-auto lg:mx-0"
+          >
+            <path
+              d="M23.5 0.690466C11.1 3.89047 0 17.4905 0 29.4905C0 35.3905 1.7 37.7905 5.9 37.7905C8.9 37.7905 11 36.1905 11 33.7905C11 32.8905 11.7 29.8905 12.5 26.9905C15.5 16.9905 22.5 11.7905 33 11.7905C44.5 11.7905 50.5 17.6905 53.5 31.9905C54.2 35.6905 56.6 37.7905 59.9 37.7905C64 37.7905 65.1 35.7905 64.9 29.2905C64.4 18.4905 57.3 8.09047 46.5 2.49047C42.1 0.290466 29 -0.809534 23.5 0.690466Z"
+              fill="#FFFFFF"
+            />
+          </svg>
+          <h1 className="text-white text-xl font-bold">Selamat Datang!</h1>
+          <p className="text-white">Mulai berkontribusi dan beri dampak nyata sekarang juga</p>
         </div>
-        <div className={`bg-white p-8 rounded-lg shadow-md w-full lg:w-1/2 transition-opacity duration-1000 transform ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+        <div className={`bg-white p-4 mb-16 lg:mb-0 rounded-lg shadow-md w-full max-w-lg transition-opacity duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
           <h2 className="text-2xl mb-4 text-center">Register</h2>
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
@@ -175,8 +187,9 @@ const Register = () => {
             </div>
             <button
               type="submit"
-              className={`w-full border border-highlight ease-in-out transition-all bg-white text-highlight font-bold py-2 px-4 rounded-md hover:bg-highlight hover:text-white
-  `}>
+              className={`w-full border border-highlight ease-in-out transition-all bg-white text-highlight font-bold py-2 px-4 rounded-md hover:bg-highlight hover:text-white`}
+              disabled={!isFormValid()}
+            >
               Daftar
             </button>
           </form>

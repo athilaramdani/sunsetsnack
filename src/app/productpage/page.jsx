@@ -110,7 +110,6 @@ const ProductPage = () => {
   if (!product) {
     return <div>Loading...</div>;
   }
-
   return (
     <div>
       <Navbar user={user} carts={carts} notifications={notifications}/>
@@ -137,8 +136,12 @@ const ProductPage = () => {
               <h1 className='font-bold'>Tentang Paket</h1>
               <p className='font-regular'>{product.deskripsi}</p>
             </div>
-            <Link href={`/geraidetail?tokoId=${product.toko.id}`} className='flex gap-4 items-center mt-8'>
-              <div>Logo</div>
+            <Link href={`/geraidetail?tokoId=${product.tokoId}`} className='flex gap-4 items-center mt-8'>
+            <Image
+              src={product.toko?.image || '/images/default-toko.png'}
+              width={50}
+              height={50}
+            />
               <div className='text-left'>
                 <h1 className='font-bold'>{product.toko.nama}</h1>
                 <p className='font-regular'>Official Branch</p>

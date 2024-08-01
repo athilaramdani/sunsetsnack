@@ -2,6 +2,7 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell } from '@fortawesome/free-solid-svg-icons';
 import { format } from 'date-fns';
+import Link from 'next/link';
 
 const Notification = ({ notifications }) => {
   const formatDate = (dateString) => {
@@ -9,11 +10,16 @@ const Notification = ({ notifications }) => {
     return format(date, 'dd-MM-yyyy');
   };
 
+  const limitednotifications = notifications.slice(0, 2);
+
   return (
     <div className="max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg mx-auto bg-white shadow-md rounded-lg p-4 sm:p-6 md:p-8 lg:p-10 mt-10 border">
-      <h1 className="text-lg font-bold mb-4">Notifikasi</h1>
+      <div className="flex md:flex-row flex-col justify-between items-center mb-4 gap-2">
+        <h1 className="text-lg font-bold mb-4">Notifikasi</h1>
+        <Link href="/notifikasi" className="text-green-600 hover:text-green-800 text-sm sm:text-base md:text-lg">Lihat Semua</Link>
+      </div>
       <ul>
-        {notifications.map((notification, index) => (
+        {limitednotifications.map((notification, index) => (
           <li key={index} className="flex items-center border-b py-2 sm:py-3 md:py-4">
             <FontAwesomeIcon icon={faBell} className="text-yellow-400 w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 lg:w-8 lg:h-8 mr-2 sm:mr-3 md:mr-4" />
             <div>

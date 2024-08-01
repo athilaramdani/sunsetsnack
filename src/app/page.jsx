@@ -92,7 +92,7 @@ const Home = () => {
             throw new Error('Network response was not ok');
           }
           const data = await response.json();
-          setNotifications(data.notifications); // Change this line
+          setNotifications(data.notifications);
         } catch (error) {
           console.error('Error fetching notifications:', error);
         }
@@ -101,6 +101,8 @@ const Home = () => {
       fetchNotifications();
     }
   }, [session, status]);
+
+  console.log(notifications)
 
   useEffect(() => {
     if (status === 'authenticated') {
@@ -134,7 +136,7 @@ const Home = () => {
   };
 
   const displayedCards = cardsData.slice(currentIndex, currentIndex + cardsPerPage);
-
+  
   return (
     <div>
       <div className='fixed top-0 left-0 w-full z-50'>
@@ -146,26 +148,37 @@ const Home = () => {
           <p className="text-lg mb-8">Mulai beri dampak nyata dari sekarang</p>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 md:gap-8 gap-2">
-          {cardsData.map((card) => (
-            <MPCard 
-              key={card.productId}
-              image={card.image || "/images/products/delivery-box.png"}
-              name={card.nama}
-              toko={card.toko}
-              rating={4.5}
-              normalPrice={card.harga}
-              discountPrice={card.harga * 0.9}
-              stock={card.stok}
-              productId={card.productId}
-            />
-          ))}
+          {cardsData.length === 0 ? (
+            [...Array(5)].map((_, index) => (
+              <div key={index} className="animate-pulse flex flex-col items-center p-4 border rounded-lg shadow-md">
+                <div className="w-full h-48 bg-gray-300 rounded-md mb-4"></div>
+                <div className="w-3/4 h-4 bg-gray-300 rounded mb-2"></div>
+                <div className="w-1/2 h-4 bg-gray-300 rounded mb-2"></div>
+                <div className="w-1/4 h-4 bg-gray-300 rounded"></div>
+              </div>
+            ))
+          ) : (
+            cardsData.map((card) => (
+              <MPCard 
+                key={card.productId}
+                image={card.image || "/images/products/delivery-box.png"}
+                name={card.nama}
+                toko={card.toko}
+                reviews={card.reviews}
+                normalPrice={card.harga}
+                discountPrice={card.harga * 0.9}
+                stock={card.stok}
+                productId={card.productId}
+              />
+            ))
+          )}
         </div>
       </div>
       <div className='bg-[#4C956C]'>
         <div className='p-12 bg-[#C8DED1] rounded-bl-[100px] rounded-tr-[100px]'>
           <div className='max-w-screen-2xl mx-auto'>
             <div>
-              <h1 className="text-2xl font-bold mb-4">🌱 Penawaran Menarik!</h1>
+              <h1 className="text-2xl font-bold mb-4">💵 Penawaran Menarik!</h1>
               <p className="text-lg mb-8">Menu oke, dengan penawaran menarik</p>
             </div>
             <div className="flex items-center justify-between">
@@ -173,19 +186,30 @@ const Home = () => {
                 &lt;
               </button>
               <div className="flex overflow-x-auto md:gap-8 gap-2 px-4">
-                {displayedCards.map((card) => (
-                  <MPCard 
-                    key={card.productId}
-                    image={card.image || "/images/products/delivery-box.png"}
-                    name={card.nama}
-                    location={card.toko}
-                    rating={4.5}
-                    normalPrice={card.harga}
-                    discountPrice={card.harga * 0.9}
-                    stock={card.stok}
-                    productId={card.productId}
-                  />
-                ))}
+                {displayedCards.length === 0 ? (
+                  [...Array(cardsPerPage)].map((_, index) => (
+                    <div key={index} className="animate-pulse flex flex-col items-center p-4 border rounded-lg shadow-md" style={{ width: '200px', height: '300px' }}>
+                      <div className="w-full h-48 bg-gray-300 rounded-md mb-4"></div>
+                      <div className="w-3/4 h-4 bg-gray-300 rounded mb-2"></div>
+                      <div className="w-1/2 h-4 bg-gray-300 rounded mb-2"></div>
+                      <div className="w-1/4 h-4 bg-gray-300 rounded"></div>
+                    </div>
+                  ))
+                ) : (
+                  displayedCards.map((card) => (
+                    <MPCard 
+                      key={card.productId}
+                      image={card.image || "/images/products/delivery-box.png"}
+                      name={card.nama}
+                      location={card.toko}
+                      reviews={card.reviews}
+                      normalPrice={card.harga}
+                      discountPrice={card.harga * 0.9}
+                      stock={card.stok}
+                      productId={card.productId}
+                    />
+                  ))
+                )}
               </div>
               <button onClick={handleNext} disabled={currentIndex >= cardsData.length - cardsPerPage} className="px-4 py-2 bg-primary text-white rounded disabled:bg-gray-400">
                 &gt;

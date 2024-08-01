@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import Sidebar from '@/components/sidebar';
 import ProductCard from '@/components/ProductCardSeller';
-import SettingForm from '@/components/SettingProfile';
 import BerandaToko from '@/components/dbseller/berandatoko';
 import KelolaProduk from '@/components/dbseller/kelolaproduk';
 import TambahProduk from '@/components/dbseller/tambahproduct';
@@ -10,6 +9,7 @@ import QueuePembeli from '@/components/dbseller/queuePembeli';
 import { useSession } from 'next-auth/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
+import SettingToko from '@/components/dbseller/settingtoko';
 
 const Dashboard = () => {
   const { data: session, status } = useSession();
@@ -17,6 +17,31 @@ const Dashboard = () => {
   const [toko, setToko] = useState(null);
   const [queue, setQueue] = useState([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [listCategory, setListCategory] = useState([]);
+  const [error, setError] = useState(null);
+  const [provinces, setProvinces] = useState([]);
+  const [cities, setCities] = useState({});
+  useEffect(() => {
+    const fetchRegions = async () => {
+      try {
+        const response = await fetch('/api/regions');
+        const data = await response.json();
+        
+        const fetchedProvinces = data.map(region => region.provinsi);
+        const fetchedCities = data.reduce((acc, region) => {
+          acc[region.provinsi] = region.kota;
+          return acc;
+        }, {});
+        
+        setProvinces(fetchedProvinces);
+        setCities(fetchedCities);
+      } catch (error) {
+        console.error('Error fetching regions data:', error);
+      }
+    };
+
+    fetchRegions();
+  }, []);
 
   useEffect(() => {
     const fetchToko = async () => {
@@ -35,6 +60,25 @@ const Dashboard = () => {
     };
 
     fetchToko();
+  }, []);
+
+  useEffect(() => {
+    const fetchListCategory = async () => {
+      try {
+        const response = await fetch(`/api/category/listcategory`);
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || "Failed to fetch category");
+        }
+
+        setListCategory(data);
+      } catch (error) {
+        console.error("Error fetching category:", error);
+      }
+    };
+
+    fetchListCategory();
   }, []);
 
   useEffect(() => {
@@ -89,9 +133,27 @@ const Dashboard = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
+  const handleEditToko = async (tokoId, formData) => {
+    try {
+      const response = await fetch(`/api/toko/edittoko?tokoId=${tokoId}`, {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+      setToko(data);
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+
   return (
     <div className="flex">
-      <div className="md:hidden p-4">
+      <div className="md:hidden px-4 pt-8">
         <FontAwesomeIcon icon={faBars} className="text-2xl cursor-pointer" onClick={toggleSidebar} />
       </div>
       {isSidebarOpen && (
@@ -112,15 +174,15 @@ const Dashboard = () => {
             <KelolaProduk products={toko.products} onMenuItemClick={setSelectedPage} /> 
             : <div>Loading...</div>
         )}
-        {selectedPage === 'profile' && (
+        {selectedPage === 'settingToko' && (
           <div>
-            <div className='px-10 pt-6'>
-              <h1 className='text-2xl font-bold mb-4'>Profile</h1>
+            <div className='px-4 sm:px-6 md:px-8 lg:px-10 pt-6'>
+              <h1 className='text-2xl font-bold mb-4'>Setting Toko</h1>
             </div>
-            <SettingForm />
+            <SettingToko toko={toko} onSave={handleEditToko} provinces={provinces} cities={cities}/>
           </div>
         )}
-        {selectedPage === 'tambahproduk' && <TambahProduk />}
+        {selectedPage === 'tambahproduk' && <TambahProduk listCategory={listCategory}/>}
         {selectedPage === 'queue' && <QueuePembeli queue={queue} onDoneClick={handleDoneClick} />}
       </div>
     </div>

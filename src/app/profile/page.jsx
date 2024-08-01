@@ -9,8 +9,10 @@ import GoToDashboardSeller from '@/components/gotodashboardseller';
 import UlasForm from '@/components/UlasForm';
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 const Profile = () => {
+  const router = useRouter();
   const { data: session, status } = useSession();
   const [selectedPage, setSelectedPage] = useState('profile');
   const [user, setUser] = useState(null);
@@ -23,7 +25,9 @@ const Profile = () => {
   const [canceled, setCanceled] = useState([]);
 
   useEffect(() => {
-    if (status === 'authenticated') {
+    if (status === 'unauthenticated') {
+      router.push('/login');
+    } else if (status === 'authenticated') {
       const fetchNotifications = async () => {
         try {
           const response = await fetch('/api/notifications/getnotifications', {
@@ -42,64 +46,24 @@ const Profile = () => {
       };
 
       fetchNotifications();
-    }
-  }, [session, status]);
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await fetch(`/api/user/userinfo`);
-        const data = await response.json();
+      const fetchUser = async () => {
+        try {
+          const response = await fetch(`/api/user/userinfo`);
+          const data = await response.json();
 
-        if (!response.ok) {
-          throw new Error(data.error || 'Failed to fetch user');
+          if (!response.ok) {
+            throw new Error(data.error || 'Failed to fetch user');
+          }
+
+          setUser(data);
+        } catch (error) {
+          console.error('Error fetching user:', error);
         }
+      };
 
-        setUser(data);
-      } catch (error) {
-        console.error('Error fetching user:', error);
-      }
-    };
+      fetchUser();
 
-    fetchUser();
-  }, []);
-
-  const handleShowUlasForm = (orderDetail) => {
-    setSelectedOrderDetail(orderDetail);
-    setShowUlasForm(true);
-  };
-
-  const handleCloseUlasForm = () => {
-    setShowUlasForm(false);
-    setSelectedOrderDetail(null);
-  };
-
-  const handleUlasFormSubmit = async (formData) => {
-    try {
-      const response = await fetch('/api/reviews/addreviews', {
-        method: 'POST',
-        body: formData,
-        headers: {
-          'user-id': session.user.userId,
-        },
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log('Review submitted successfully:', data);
-        handleCloseUlasForm();
-        window.location.reload();
-      } else {
-        const errorData = await response.json();
-        console.error('Error submitting review:', errorData);
-      }
-    } catch (error) {
-      console.error('Error submitting review:', error);
-    }
-  };
-
-  useEffect(() => {
-    if (status === 'authenticated') {
       const fetchPembelian = async () => {
         try {
           const response = await fetch('/api/pembayaran/getpembayaranuserpage', {
@@ -139,7 +103,49 @@ const Profile = () => {
       fetchPembelian();
     }
   }, [session, status]);
-  console.log("finish", finish)
+
+  const handleShowUlasForm = (orderDetail) => {
+    setSelectedOrderDetail(orderDetail);
+    setShowUlasForm(true);
+  };
+
+  const handleCloseUlasForm = () => {
+    setShowUlasForm(false);
+    setSelectedOrderDetail(null);
+  };
+
+  const handleUlasFormSubmit = async (formData) => {
+    try {
+      const response = await fetch('/api/reviews/addreviews', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'user-id': session.user.userId,
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Review submitted successfully:', data);
+        handleCloseUlasForm();
+        window.location.reload();
+      } else {
+        const errorData = await response.json();
+        console.error('Error submitting review:', errorData);
+      }
+    } catch (error) {
+      console.error('Error submitting review:', error);
+    }
+  };
+
+  if (status === 'loading') {
+    return <div>Loading...</div>;
+  }
+
+  if (status === 'unauthenticated') {
+    return null; // Return null while redirecting to avoid flickering
+  }
+
   return (
     <div>
       <Navbar carts={carts} user={user} notifications={notifications} />
@@ -170,12 +176,6 @@ const Profile = () => {
                             onClose={handleCloseUlasForm} 
                             onSubmit={handleUlasFormSubmit} 
                           />
-                          <button
-                            className="mt-4 bg-red-500 text-white py-2 px-4 rounded"
-                            onClick={handleCloseUlasForm}
-                          >
-                            Close
-                          </button>
                         </div>
                       </div>
                     )}

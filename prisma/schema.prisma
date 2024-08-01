@@ -61,7 +61,7 @@ model Product {
   deskripsi  String?
   harga      Float
   stok       Int
-  terjual    Int?
+  terjual    Int?     @default(0)
   kategori   String
   tokoId     Int
   image      String?

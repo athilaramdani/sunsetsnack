@@ -8,7 +8,16 @@ import { getServerSession } from 'next-auth/next';
 
 export async function GET() {
   try {
-    const products = await prisma.product.findMany();
+    const products = await prisma.product.findMany({
+      include: { 
+        toko: true,
+        reviews: {
+          include: {
+            user: true,
+          },
+        },
+      },
+    });
     return new NextResponse(JSON.stringify(products), {
       status: 200,
       headers: {

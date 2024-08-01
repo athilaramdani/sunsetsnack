@@ -35,9 +35,9 @@ export async function GET(req) {
     }
 
     const toko = userToko[0].toko; // Mengambil toko pertama yang ditemukan
-    const { tokoId, nama, provinsi, kota, alamat, products } = toko;
+    const { tokoId, nama, provinsi, kota, alamat, products, image, deskripsi, users } = toko;
 
-    return NextResponse.json({ tokoId, nama, provinsi, kota, alamat, products }, { status: 200 });
+    return NextResponse.json({ tokoId, nama, provinsi, kota, alamat, products,image, deskripsi, users }, { status: 200 });
   } catch (error) {
     console.error('Error fetching Toko:', error);
     return NextResponse.json({ error: 'Error fetching Toko' }, { status: 500 });

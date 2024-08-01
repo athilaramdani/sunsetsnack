@@ -15,37 +15,48 @@ export const authOptions = {
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        email: { label: "Email", type: "email", placeholder: "example@mail.com" },
-        password: { label: "Password", type: "password" }
+        identifier: { label: "Username/Email/Phone", type: "text" },
+        password: { label: "Password", type: "password" },
       },
       async authorize(credentials, req) {
-        if (!credentials?.email || !credentials?.password) {
+        if (!credentials?.identifier || !credentials?.password) {
           return null;
         }
 
-        const existingUser = await prisma.user.findUnique({
-          where: { email: credentials.email },
-        });
+        let user;
+        if (credentials.identifierType === 'email') {
+          user = await prisma.user.findUnique({
+            where: { email: credentials.identifier },
+          });
+        } else if (credentials.identifierType === 'phone') {
+          user = await prisma.user.findUnique({
+            where: { no_telp: credentials.identifier },
+          });
+        } else {
+          user = await prisma.user.findUnique({
+            where: { username: credentials.identifier },
+          });
+        }
 
-        if (!existingUser) {
+        if (!user) {
           return null;
         }
 
-        const passwordMatch = await bcrypt.compare(credentials.password, existingUser.password);
+        const passwordMatch = await bcrypt.compare(credentials.password, user.password);
         if (!passwordMatch) {
           return null;
         }
 
         return {
-          userId: `${existingUser.userId}`,  // Disesuaikan dengan skema revisi
-          username: existingUser.username,
-          email: existingUser.email,
-          nama: existingUser.nama,
-          roleToko: existingUser.roleToko,
-          no_telp: existingUser.no_telp,
-          image: existingUser.image,
-          rank: existingUser.rank,
-          alamat: existingUser.alamat,
+          userId: `${user.userId}`,
+          username: user.username,
+          email: user.email,
+          nama: user.nama,
+          roleToko: user.roleToko,
+          no_telp: user.no_telp,
+          image: user.image,
+          rank: user.rank,
+          alamat: user.alamat,
         };
       },
     }),

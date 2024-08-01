@@ -3,10 +3,10 @@
 import Navbar from '@/components/Navbar/navbar';
 import ProfileCard from '@/components/profilecard';
 import SettingProfile from '@/components/SettingProfile';
-import History from '@/components/HistoryList';
+import History from '@/components/historyList';
 import Seller from '@/components/FormSeller';
 import GoToDashboardSeller from '@/components/gotodashboardseller';
-import UlasForm from '@/components/UlasForm';
+import UlasForm from '@/components/ulasForm';
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';

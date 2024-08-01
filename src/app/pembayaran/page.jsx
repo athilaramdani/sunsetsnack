@@ -4,7 +4,7 @@ import { useSession } from 'next-auth/react';
 import Navbar from '@/components/Navbar/navbar';
 import PembayaranCart from '@/components/pembayarancart';
 import PembayaranCard from '@/components/pembayarancard';
-import PaymentMethod from '@/components/paymentmethod';
+import PaymentMethod from '@/components/paymentMethod';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from 'next/navigation';

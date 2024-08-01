@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import Navbar from '@/components/Navbar/navbar';
-import NotificationList from '@/components/NotificationList';
+import NotificationList from '@/components/notificationList';
 
 const Cart = () => {
   const { data: session, status } = useSession();

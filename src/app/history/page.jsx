@@ -1,6 +1,6 @@
 import Navbar from '@/components/Navbar/navbar';
 import ProfileCard from '@/components/profilecard';
-import HistoryList from '@/components/historylist';
+import HistoryList from '@/components/historyList';
 
 const History = () => {
 

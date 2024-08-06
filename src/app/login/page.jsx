@@ -52,6 +52,11 @@ const Login = () => {
   const handleGoogleSignIn = async () => {
     setIsLoading(true);
     await signIn('google', { callbackUrl: '/' });
+    if (signInResponse && !signInResponse.error) {
+      Router.push('/');
+    } else {
+      setError(true)
+    }
   };
 
   useEffect(() => {

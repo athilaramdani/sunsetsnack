@@ -14,7 +14,7 @@ import ProfilePopUp from '@/components/popUpProfile';
 
 library.add(faCartShopping, faBell, faBars);
 
-const Navbar = ({ carts, user, notifications }) => {
+const Navbar = ({ carts, user, notifications, onMenuItemClick }) => {
   const { data: session, status } = useSession();
   const [showNotifications, setShowNotifications] = useState(false);
   const [showCartPopUp, setShowCartPopUp] = useState(false);
@@ -204,7 +204,7 @@ const Navbar = ({ carts, user, notifications }) => {
                       onMouseEnter={() => handleMouseEnter(setShowProfile, hideProfileTimeout)}
                       onMouseLeave={() => handleMouseLeave(setShowProfile, hideProfileTimeout)}
                     >
-                      <ProfilePopUp user={user} />
+                      <ProfilePopUp user={user} onMenuItemClick={onMenuItemClick}/>
                     </div>
                   )}
                 </div>

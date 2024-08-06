@@ -20,16 +20,20 @@ const BerandaToko = ({toko}) => {
               <h1 className='text-xl sm:text-2xl font-bold mb-4'>Beranda</h1>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
                 <div className="bg-white shadow-md rounded-md p-4">
-                  Total Produk Terjual: {totalTerjual}
+                  Total Produk Terjual 
+                  <h1 className="text-3xl font-bold">{totalTerjual}</h1>
                 </div>
                 <div className="bg-white shadow-md rounded-md p-4">
-                  Dampak Lingkungan: 89
+                  Dampak Lingkungan
+                  <h1 className="text-3xl font-bold">89</h1>
                 </div>
                 <div className="bg-white shadow-md rounded-md p-4">
-                  Total Secondary Revenue: 89
+                  Total Secondary Revenue
+                  <h1 className="text-3xl font-bold">89</h1>
                 </div>
                 <div className="bg-white shadow-md rounded-md p-4">
-                  Total Produk Terjual: 89
+                  Total Produk Terjual
+                  <h1 className="text-3xl font-bold">89</h1>
                 </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

@@ -14,7 +14,7 @@ const KelolaProduk = ({ products, onMenuItemClick }) => {
                     Tambah Produk
                 </button>
             </div>
-            <div className='pt-4 flex flex-col gap-8 lg:items-center'>
+            <div className='pt-4 flex flex-col gap-8 md:items-center bg-red'>
                 {products.map((product) => (
                     <ProductCard
                         key={product.id}

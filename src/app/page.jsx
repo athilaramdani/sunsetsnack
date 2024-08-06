@@ -135,7 +135,7 @@ const Home = () => {
         <Navbar carts={carts} user={user} notifications={notifications} />
       </div>
       <div className='pt-32 pb-24 max-w-screen-2xl mx-auto p-8'>
-        <div>
+      <div>
           <h1 className="text-2xl font-bold mb-4">🌱 Yuk, Segera Selamatkan!</h1>
           <p className="text-lg mb-8">Mulai beri dampak nyata dari sekarang</p>
         </div>
@@ -150,37 +150,47 @@ const Home = () => {
               </div>
             ))
           ) : (
-            cardsData.map((card) => (
-              <MPCard 
-                key={card.productId}
-                image={card.image || "/images/products/delivery-box.png"}
-                name={card.nama}
-                toko={card.toko}
-                reviews={card.reviews}
-                normalPrice={card.harga}
-                discountPrice={card.harga * 0.9}
-                stock={card.stok}
-                productId={card.productId}
-              />
-            ))
+            [...cardsData]
+              .sort((a, b) => b.stok - a.stok) // Sort by stock in descending order
+              .map((card) => (
+                <MPCard
+                  key={card.productId}
+                  image={card.image || "/images/products/delivery-box.png"}
+                  name={card.nama}
+                  toko={card.toko}
+                  reviews={card.reviews}
+                  normalPrice={card.harga}
+                  discountPrice={card.harga * 0.9}
+                  stock={card.stok}
+                  productId={card.productId}
+                />
+              ))
           )}
         </div>
       </div>
       <div className='bg-[#4C956C]'>
         <div className='p-12 bg-[#C8DED1] rounded-bl-[100px] rounded-tr-[100px]'>
           <div className='max-w-screen-2xl mx-auto'>
-            <div>
+          <div>
               <h1 className="text-2xl font-bold mb-4">💵 Penawaran Menarik!</h1>
               <p className="text-lg mb-8">Menu oke, dengan penawaran menarik</p>
             </div>
             <div className="flex items-center justify-between">
-              <button onClick={handlePrevious} disabled={currentIndex === 0} className="px-4 py-2 bg-primary text-white rounded disabled:bg-gray-400">
+              <button
+                onClick={handlePrevious}
+                disabled={currentIndex === 0}
+                className="px-4 py-2 bg-primary text-white rounded disabled:bg-gray-400"
+              >
                 &lt;
               </button>
               <div className="flex overflow-x-auto md:gap-8 gap-2 px-4">
                 {displayedCards.length === 0 ? (
                   [...Array(cardsPerPage)].map((_, index) => (
-                    <div key={index} className="animate-pulse flex flex-col items-center p-4 border rounded-lg shadow-md" style={{ width: '200px', height: '300px' }}>
+                    <div
+                      key={index}
+                      className="animate-pulse flex flex-col items-center p-4 border rounded-lg shadow-md"
+                      style={{ width: "200px", height: "300px" }}
+                    >
                       <div className="w-full h-48 bg-gray-300 rounded-md mb-4"></div>
                       <div className="w-3/4 h-4 bg-gray-300 rounded mb-2"></div>
                       <div className="w-1/2 h-4 bg-gray-300 rounded mb-2"></div>
@@ -188,25 +198,32 @@ const Home = () => {
                     </div>
                   ))
                 ) : (
-                  displayedCards.map((card) => (
-                    <MPCard 
-                      key={card.productId}
-                      image={card.image || "/images/products/delivery-box.png"}
-                      name={card.nama}
-                      location={card.toko}
-                      reviews={card.reviews}
-                      normalPrice={card.harga}
-                      discountPrice={card.harga * 0.9}
-                      stock={card.stok}
-                      productId={card.productId}
-                    />
-                  ))
+                  [...displayedCards]
+                    .sort((a, b) => a.harga - b.harga) // Sort by price in ascending order
+                    .map((card) => (
+                      <MPCard
+                        key={card.productId}
+                        image={card.image || "/images/products/delivery-box.png"}
+                        name={card.nama}
+                        location={card.toko}
+                        reviews={card.reviews}
+                        normalPrice={card.harga}
+                        discountPrice={card.harga * 0.9}
+                        stock={card.stok}
+                        productId={card.productId}
+                      />
+                    ))
                 )}
               </div>
-              <button onClick={handleNext} disabled={currentIndex >= cardsData.length - cardsPerPage} className="px-4 py-2 bg-primary text-white rounded disabled:bg-gray-400">
+              <button
+                onClick={handleNext}
+                disabled={currentIndex >= cardsData.length - cardsPerPage}
+                className="px-4 py-2 bg-primary text-white rounded disabled:bg-gray-400"
+              >
                 &gt;
               </button>
             </div>
+
           </div>
           <div className='flex justify-center items-center pt-8'>
             <button className='bg-[#A8C4B4] px-8 md:px-32 py-2 md:py-4 rounded-xl text-[#2C6E49] font-bold'>Lihat Semua</button>

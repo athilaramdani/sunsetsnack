@@ -52,7 +52,7 @@ const MPCard = ({ image, name, toko, reviews, normalPrice, discountPrice, stock,
           )}
           {stock ? (
             <div>
-              <p className="text-sm text-gray-500 text-end">{stock} Stok Tersedia</p>
+              <p className="text-sm text-gray-500 text-end">{stock > 0 ? `${stock} Stok Tersedia` : 'Stok Habis'}</p>
             </div>
           ) : (
             <div className="animate-pulse h-4 bg-gray-200 rounded w-1/3 ml-auto"></div>

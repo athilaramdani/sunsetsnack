@@ -139,8 +139,8 @@ const Navbar = ({ carts, user, notifications, onMenuItemClick }) => {
               onMouseEnter={() => handleMouseEnter(setShowNotifications, hideNotificationTimeout)}
               onMouseLeave={() => handleMouseLeave(setShowNotifications, hideNotificationTimeout)}
             >
-              <Link href="/notifikasi" className="text-black hover:text-primary">
-                <FontAwesomeIcon icon="fa-regular fa-bell" className="mx-3 cursor-pointer hover:scale-125 transition-transform transform" />
+              <Link href="/notifikasi" className="text-black ">
+                <FontAwesomeIcon icon="fa-regular fa-bell" className="hover:text-primary mx-3 cursor-pointer hover:scale-125 transition-transform transform" />
               </Link>
               {showNotifications && (
                 <div
@@ -159,8 +159,8 @@ const Navbar = ({ carts, user, notifications, onMenuItemClick }) => {
               onMouseEnter={() => handleMouseEnter(setShowCartPopUp, hideCartPopUpTimeout)}
               onMouseLeave={() => handleMouseLeave(setShowCartPopUp, hideCartPopUpTimeout)}
             >
-              <Link href="/keranjang" className="text-black hover:text-primary">
-                <FontAwesomeIcon icon="fa-solid fa-cart-shopping" className="mx-3 cursor-pointer hover:scale-125 transition-transform transform" />
+              <Link href="/keranjang" className="text-black ">
+                <FontAwesomeIcon icon="fa-solid fa-cart-shopping" className="hover:text-primary mx-3 cursor-pointer hover:scale-125 transition-transform transform" />
               </Link>
               {showCartPopUp && (
                 <div

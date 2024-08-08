@@ -22,6 +22,11 @@ const PaymentMethod = ({ total, onPay }) => {
       setLoading(1);
     }
   };
+  const [selectedMethod, setSelectedMethod] = useState('');
+
+  const handleSelectMethod = (method) => {
+    setSelectedMethod(method);
+  };
 
   return (
     <div className="max-w-lg mx-auto bg-white shadow-md rounded-lg p-8">
@@ -31,13 +36,20 @@ const PaymentMethod = ({ total, onPay }) => {
         <h3 className="text-md font-semibold mb-2">Transfer Bank</h3>
         <div className="space-y-2">
           {['Mandiri', 'BNI', 'BRI', 'BCA'].map((bank) => (
-            <div
+            <div 
               key={bank}
-              className="flex items-center p-2 border rounded cursor-pointer"
+              className={`flex items-center p-2 border ${selectedMethod === bank ? 'border-green-500 bg-green-100' : 'border-gray-300'} rounded cursor-pointer`}
+              onClick={() => handleSelectMethod(bank)}
             >
-              <img src={`/images/${bank.toLowerCase()}.png`} alt={bank} className="w-6 h-6 mr-3" />
+              <img src={`/icons/${bank.toLowerCase()}.png`} alt={bank} className="w-6 h-6 mr-3" />
               <span className="flex-grow">Transfer Bank {bank}</span>
-              <input type="radio" name="payment" className="form-radio" readOnly />
+              <input 
+                type="radio" 
+                name="payment" 
+                className="form-radio" 
+                checked={selectedMethod === bank} 
+                onChange={() => handleSelectMethod(bank)}
+              />
             </div>
           ))}
         </div>
@@ -46,13 +58,20 @@ const PaymentMethod = ({ total, onPay }) => {
         <h3 className="text-md font-semibold mb-2">E-Wallet</h3>
         <div className="space-y-2">
           {['Gopay', 'Dana', 'LinkAja'].map((wallet) => (
-            <div
+            <div 
               key={wallet}
-              className="flex items-center p-2 border rounded cursor-pointer"
+              className={`flex items-center p-2 border ${selectedMethod === wallet ? 'border-green-500 bg-green-100' : 'border-gray-300'} rounded cursor-pointer`}
+              onClick={() => handleSelectMethod(wallet)}
             >
-              <img src={`/images/${wallet.toLowerCase()}.png`} alt={wallet} className="w-6 h-6 mr-3" />
+              <img src={`/icons/${wallet.toLowerCase()}.png`} alt={wallet} className="w-6 h-6 mr-3" />
               <span className="flex-grow">{wallet}</span>
-              <input type="radio" name="payment" className="form-radio" readOnly />
+              <input 
+                type="radio" 
+                name="payment" 
+                className="form-radio" 
+                checked={selectedMethod === wallet} 
+                onChange={() => handleSelectMethod(wallet)}
+              />
             </div>
           ))}
         </div>

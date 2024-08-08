@@ -54,8 +54,8 @@ const TambahProduk = ({ listCategory }) => {
     <div className='p-4 md:p-8'>
       <form onSubmit={handleSubmit} className="max-w-md mx-auto bg-white shadow-md rounded-lg p-4 md:p-8 mt-4 md:mt-10">
         <h1 className="text-xl md:text-2xl font-bold mb-6">Tambah Produk</h1>
-        <div className="flex flex-col mb-8">
-          <div className="w-full sm:w-24 h-32 mb-4 flex items-center justify-center">
+        <div className="flex flex-col mb-8 items-center justify-center ">
+          <div className="w-full sm:w-24 h-32 mb-4 ">
             {formData.image ? (
               <img
                 src={URL.createObjectURL(formData.image)}
@@ -69,14 +69,21 @@ const TambahProduk = ({ listCategory }) => {
                 className="object-cover w-full h-full rounded"
               />
             )}
-          </div>
+         </div>
+         <div>
           <input
             type="file"
             name="image"
             accept="image/*"
             onChange={handleChange}
-            className="bg-green-500 text-white px-4 py-2 rounded w-full"
+            className="text-sm text-white px-4 py-2 rounded-full bg-green-500  
+            file:mr-4 file:py-2 file:px-4
+            file:rounded-full file:border-0
+            file:text-sm file:font-semibold
+            file:text-gray-700
+            hover:file:bg-gray-100"
           />
+         </div>
         </div>
         <div className="mb-4">
           <label className="block text-gray-700">Nama Produk</label>

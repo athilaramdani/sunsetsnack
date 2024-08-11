@@ -129,25 +129,7 @@ const Login = () => {
               )}
             </button>
           </form>
-          <div className="mt-4">
-            <button
-              onClick={handleGoogleSignIn}
-              className={`w-full border border-black ease-in-out transition-all bg-white text-black font-bold py-2 px-4 rounded-md hover:bg-black hover:text-white flex items-center justify-center ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
-              disabled={isLoading}
-            >
-              {isLoading ? (
-                <>
-                  <svg className="animate-spin h-5 w-5 mr-3" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
-                  </svg>
-                  Processing...
-                </>
-              ) : (
-                'Sign in with Google'
-              )}
-            </button>
-          </div>
+        
           <div className="mt-4 text-center">
             <p>Belum punya akun?
               <Link href="/register" className="text-black underline font-bold hover:text-highlight ease-in-out transition-all"> Daftar</Link>
